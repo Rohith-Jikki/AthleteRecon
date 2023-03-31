@@ -1,0 +1,16 @@
+body{
+    font-family: Arial;
+}
+
+.navbar{
+    background-color: #404258;
+    padding: 20px;
+}
+
+a{
+    font-weight: bold;
+    text-decoration: none;
+    color: grey;
+    margin: 0px 10px 0px 10px;
+}
+

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}SignUp{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/signup.css')}}">
+{% endblock %}
+{% block content %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='signup.js') }}" defer></script>
+
+<div class="container">
+    <form action="" id="register" method="post" name="signup_form">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name">
+        <label for="emailInput">Email</label>
+        <input type="email" id="emailInput" name="email" placeholder="Enter E-mail">
+
+        <!--            TODO: Make an Eye Icon to reveal password-->
+
+        <label for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" name="password" onkeyup="check();" placeholder="Enter Password"
+            required>
+        <span id="error-message">Entering a character and a number is recommended</span><br>
+        <label for="confirmPasswordInput">Confirm Password</label>
+        <input type="password" id="confirmPasswordInput" name="confirmPassword" onkeyup="check();"
+            placeholder="Re-Enter Password " required>
+        <input type="submit" value="Sign Up" id="submit" cls="btn" disabled>
+        <p class="error"></p>
+    </form>
+</div>
+{% endblock %}
