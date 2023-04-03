@@ -17,10 +17,16 @@
 
     <nav>
         <div class="navbar">
+            {% if 'logged_in' not in session %}
             <a href="/">HOME</a>
             <a href="/login">LOGIN</a>
-            <a href="/logout">LOGOUT</a>
             <a href="/sign-up">SIGN-UP</a>
+            {% else %}
+            <div class="logged-in">
+            <a href="/players" class="player-name">{{session['user']['name']}}</a>
+            <a href="/logout">LOGOUT</a>
+                </div>
+            {% endif %}
         </div>
     </nav>
     {% with messages = get_flashed_messages(with_categories=true) %}

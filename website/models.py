@@ -38,10 +38,8 @@ class User:
 
     def login(self):
         user = users.find_one({
-            "email": request.form.get("email")
+            "email": request.form.get("emailInput")
         })
-
-        if user:
+        if user and pbkdf2_sha256.verify(request.form.get("passwordInput"), user['password']):
             return self.start_session(user)
-        else:
-            return jsonify({"error": "Invalid login credentials"}), 401
+        return jsonify({"error": "Invalid login credentials"}), 401
