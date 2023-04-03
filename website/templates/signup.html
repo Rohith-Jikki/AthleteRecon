@@ -8,6 +8,7 @@
 <script type="text/javascript" src="{{ url_for('static', filename='signup.js') }}" defer></script>
 
 <div class="container">
+    <div class="player-signup">
     <form action="" id="register" method="post" name="signup_form">
         <label for="name">Name</label>
         <input type="text" id="name" name="name" placeholder="Enter your name">
@@ -23,8 +24,29 @@
         <label for="confirmPasswordInput">Confirm Password</label>
         <input type="password" id="confirmPasswordInput" name="confirmPassword" onkeyup="check();"
             placeholder="Re-Enter Password " required>
-        <input type="submit" value="Sign Up" id="submit" cls="btn" disabled>
+        <input type="submit" value="Sign Up" id="submit" class="btn" disabled>
         <p class="error"></p>
     </form>
+    </div>
+    <div class="club-signup">
+        <form action="" id="club-register" method="post" name="club_signup_form">
+        <label for="club-name">Name</label>
+        <input type="text" id="club-name" name="club-name" placeholder="Enter Club's Name">
+        <label for="club-email">Email</label>
+        <input type="email" id="club-email" name="club-email" placeholder="Enter E-mail">
+
+        <!--            TODO: Make an Eye Icon to reveal password-->
+
+        <label for="club-password">Password</label>
+        <input type="password" id="club-password" name="club-password" onkeyup="check();" placeholder="Enter Password"
+            required>
+        <span id="club-error-message">Entering a character and a number is recommended</span><br>
+        <label for="club-confirm-password">Confirm Password</label>
+        <input type="password" id="club-confirm-password" name="club-confirm-password" onkeyup="check();"
+            placeholder="Re-Enter Password " required>
+        <input type="submit" value="Sign Up" id="club-signup-submit" class="btn" disabled>
+        <p class="error"></p>
+    </form>
+    </div>
 </div>
 {% endblock %}

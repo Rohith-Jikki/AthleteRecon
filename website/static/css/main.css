@@ -8,7 +8,7 @@ input {
   box-sizing: border-box;
 }
 
-#submit {
+#save {
   width: 100%;
   background-color: #4CAF50;
   color: white;
@@ -19,11 +19,11 @@ input {
   cursor: pointer;
 }
 
-#submit:hover {
+#save:hover {
   background-color: #45a049;
 }
 
-#submit:disabled {
+#save:disabled {
   background-color: grey;
 }
 

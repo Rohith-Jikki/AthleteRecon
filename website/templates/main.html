@@ -4,8 +4,8 @@
 {% endblock %}
 {% block content%}
 <div class="container">
-    <button id="edit-profile">Edit Profile</button>
-    <form action="" class="details">
+    <button id="edit-profile" name="edit-profile">Edit Profile</button>
+    <form action="" class="details" method="post">
         <label for="name">Name</label>
         <input type="text" name="name" id="name">
         <label for="date-of-birth">Date of birth</label>
@@ -14,7 +14,6 @@
         <input type="email" name="email" id="email">
         <label for="phone">Phone Number</label>
         <input type="number" name="phone" id="phone">
-        <input type="submit" name="save" id="save" value="Save Details">
         <hr>
 <!--        Physical details-->
         <label for="height">Height(cm)</label>
@@ -23,7 +22,11 @@
         <input type="number" name="weight" id="weight">
         <label for="medical-conditions">Medical Conditions(if any)</label>
         <input type="text" name="medical-conditions" id="medical-conditions">
+<!--        Certificate Upload-->
+        <label for="certificate">Certificate</label>
+        <input type="file" name="certificate" id="certificate">
 
+        <input type="submit" name="save" id="save" value="Save Details" disabled>
     </form>
 </div>
 {% endblock %}
