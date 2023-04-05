@@ -12,7 +12,6 @@ def login_required(function):
             return function(*args, **kwargs)
         else:
             return redirect('/login')
-
     return wrap
 
 
@@ -25,3 +24,9 @@ def home():
 @login_required
 def player_page():
     return render_template('main.html')
+
+
+@views.route('/career')
+@login_required
+def career_page():
+    return render_template("career.html")

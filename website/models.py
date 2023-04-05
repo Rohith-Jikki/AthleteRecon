@@ -5,19 +5,18 @@ from .__init__ import users
 
 
 class User:
-
     def start_session(self, user):
         del user['password']
         session['logged_in'] = True
         session['user'] = user
         return jsonify(user), 200
 
-    def signup(self):
+    def signup(self, name, email, password):
         user = {
             "_id": uuid.uuid4().hex,
-            "name": request.form.get('name'),
-            "email": request.form.get('email'),
-            "password": request.form.get('password')
+            "name": request.form.get(name),
+            "email": request.form.get(email),
+            "password": request.form.get(password)
         }
 
         # Encrypt the password

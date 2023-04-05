@@ -1,32 +1,73 @@
 {% extends "base.html" %} {% block title %}Players{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+<link href="{{url_for('static', filename='css/main.css')}}" rel="stylesheet">
 {% endblock %}
 {% block content%}
+<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}" defer></script>
+
 <div class="container">
     <button id="edit-profile" name="edit-profile">Edit Profile</button>
     <form action="" class="details" method="post">
         <label for="name">Name</label>
-        <input type="text" name="name" id="name">
+        <input id="name" name="name" type="text">
         <label for="date-of-birth">Date of birth</label>
-        <input type="date" name="date-of-birth" id="date-of-birth">
+        <input id="date-of-birth" name="date-of-birth" type="date">
         <label for="email">Email</label>
-        <input type="email" name="email" id="email">
+        <input id="email" name="email" type="email">
         <label for="phone">Phone Number</label>
-        <input type="number" name="phone" id="phone">
+        <input id="phone" name="phone" type="number">
         <hr>
-<!--        Physical details-->
+        <!--        Physical details-->
         <label for="height">Height(cm)</label>
-        <input type="number" name="height" id="height">
+        <input id="height" name="height" type="number">
         <label for="weight">Weight(Kg)</label>
-        <input type="number" name="weight" id="weight">
+        <input id="weight" name="weight" type="number">
         <label for="medical-conditions">Medical Conditions(if any)</label>
-        <input type="text" name="medical-conditions" id="medical-conditions">
-<!--        Certificate Upload-->
+        <input id="medical-conditions" name="medical-conditions" type="text">
+        <!--        Certificate Upload-->
         <label for="certificate">Certificate</label>
-        <input type="file" name="certificate" id="certificate">
+        <input id="certificate" name="certificate" type="file">
+        <!--        Sport-->
+        <label for="sport-select">Choose Your Sport: </label>
 
-        <input type="submit" name="save" id="save" value="Save Details" disabled>
+        <select id="sport-select" name="sport-select">
+            <option value="football">Football</option>
+            <option value="cricket">Cricket</option>
+        </select>
+        <hr>
+
+        <div class="football">
+            <h2>Football</h2>
+            <label for="football-position">Select Your Position:</label>
+            <select id="football-position" name="football-position">
+                <option value="goalkeeper">Goalkeeper</option>
+                <option value="defender">Defender</option>
+                <option value="midfielder">Midfielder</option>
+                <option value="forward">Forward</option>
+            </select>
+            <label for="strong-foot">Select Your Strong Foot:</label>
+            <select id="strong-foot" name="strong-foot">
+
+                <option value="left-foot">Left Foot</option>
+                <option value="right-foot">Right Foot</option>
+            </select>
+        </div>
+        <div class="cricket">
+            <h2>Cricket</h2>
+            <label for="role">Select Your Role</label>
+            <select id="role" name="role">
+                <option value="Batsman">Batsman</option>
+                <option value="Batsman-and-Wicket-Keeper">Batsman and Wicket Keeper</option>
+                <option value="Bowler">Bowler</option>
+                <option value="All-Rounder">All Rounder</option>
+            </select>
+            <label for="style">Select Your Play Style</label>
+            <select name="style" id="style">
+                <option value="Right-Handed">Right Handed</option>
+                <option value="Left-Handed">Left Handed</option>
+            </select>
+        </div>
+        <input disabled id="save" name="save" type="submit" value="Save Details">
     </form>
 </div>
 {% endblock %}

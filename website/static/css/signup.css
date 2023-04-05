@@ -1,4 +1,4 @@
-#name, #emailInput, #passwordInput, #confirmPasswordInput{
+input, select{
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -8,7 +8,7 @@
   box-sizing: border-box;
 }
 
-#submit{
+input[type=submit]{
   width: 100%;
   background-color: #4CAF50;
   color: white;
@@ -19,11 +19,11 @@
   cursor: pointer;
 }
 
-#submit:hover{
+input[type=submit]{
   background-color: #45a049;
 }
 
-#submit:disabled{
+input[type=submit]:disabled{
     background-color: grey;
 }
 
