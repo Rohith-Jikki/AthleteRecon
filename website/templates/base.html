@@ -23,10 +23,10 @@
             <a href="/sign-up">SIGN-UP</a>
             {% else %}
             <div class="logged-in">
-            <a href="/players" class="player-name">{{session['user']['name']}}</a>
+                <a href="/players" class="player-name">{{session['user']['name']}}</a>
                 <a href="/career" class="career">Career</a>
-            <a href="/logout" class="logout">LOGOUT</a>
-                </div>
+                <a href="/logout" class="logout">LOGOUT</a>
+            </div>
             {% endif %}
         </div>
     </nav>
@@ -34,7 +34,7 @@
     {% if messages %}
     {% for category, message in messages %}
     {% if category == "error" %}
-    <div class="error-class" role="alert" style="color:red">
+    <div class="error error-class" role="alert" style="color:red">
         {{ message }}
     </div>
     {% endif %}

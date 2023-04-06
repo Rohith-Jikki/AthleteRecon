@@ -13,7 +13,7 @@ users = db['clubs_credentials']
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = os.environ.get('KEY')
-    app.secret_key = os.environ.get("key")
+    app.secret_key = os.environ.get("KEY")
     from .views import views
     from .auth import auth
 
