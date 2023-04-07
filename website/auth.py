@@ -1,14 +1,17 @@
 from flask import Blueprint, render_template, request, flash
 from .models import User
-
+from .__init__ import users, club_users, player_details
 
 auth = Blueprint("auth", __name__)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-    if request.method == "POST":
-        return User().login()
+    if request.method == 'POST':
+        if (str(request.form.get('club-or-player')) == 'player'):
+            return User().login(database=users)
+        else:
+            pass
     return render_template("login.html")
 
 
@@ -19,7 +22,7 @@ def logout():
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
-    if request.method == 'POST' and request.form.get("player") == 'player':
+    if request.method == 'POST':
         name = request.form.get('name')
         email = request.form.get('email')
         password = request.form.get('password')
@@ -30,6 +33,9 @@ def sign_up():
         elif len(password) < 7:
             flash(message="password is less than 8 characters", category='error')
         else:
-            return User().signup(name='name', email='email', password="password")
+            if (str(request.form.get('club-or-player')) == 'player'):
+                return User().signup(name='name', email='email', password="password", database=users, details_database=player_details)
+            else:
+                return User().signup(name='name', email='email', password="password", database=club_users)
 
     return render_template("signup.html")

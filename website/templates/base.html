@@ -23,6 +23,7 @@
             <a href="/sign-up">SIGN-UP</a>
             {% else %}
             <div class="logged-in">
+                <a href="/player-profile" class="player-profile">Profile</a>
                 <a href="/players" class="player-name">{{session['user']['name']}}</a>
                 <a href="/career" class="career">Career</a>
                 <a href="/logout" class="logout">LOGOUT</a>

@@ -8,8 +8,11 @@
 <script type="text/javascript" src="{{ url_for('static', filename='signup.js') }}" defer></script>
 
 <div class="container">
-    <div class="player-signup">
     <form action="" id="register" method="post" name="signup_form">
+        <select name="club-or-player" id="club-or-player">
+            <option value="player" selected>Player</option>
+            <option value="club">Club</option>
+        </select>
         <label for="name">Name</label>
         <input type="text" id="name" name="name" placeholder="Enter your name">
         <label for="emailInput">Email</label>
@@ -24,30 +27,46 @@
         <label for="confirmPasswordInput">Confirm Password</label>
         <input type="password" id="confirmPasswordInput" name="confirmPassword" onkeyup="check();"
             placeholder="Re-Enter Password " required>
-        <input type="text" name="player" id="player" value="player" readonly>
+        <p class="error"></p>
+        <div class="select-sport-container">
+            <label for="sport-select">Select Your Sport: </label>
+            <select id="sport-select" name="sport-select">
+                <option value="football">Football</option>
+                <option value="cricket">Cricket</option>
+            </select>
+            <div class="football">
+                <h2>Football</h2>
+                <label for="football-position">Select Your Position:</label>
+                <select id="football-position" name="football-position">
+                    <option value="goalkeeper">Goalkeeper</option>
+                    <option value="defender">Defender</option>
+                    <option value="midfielder">Midfielder</option>
+                    <option value="forward">Forward</option>
+                </select>
+                <label for="strong-foot">Select Your Strong Foot:</label>
+                <select id="strong-foot" name="strong-foot">
+
+                    <option value="left-foot">Left Foot</option>
+                    <option value="right-foot">Right Foot</option>
+                </select>
+            </div>
+            <div class="cricket">
+                <h2>Cricket</h2>
+                <label for="role">Select Your Role</label>
+                <select id="role" name="role">
+                    <option value="Batsman">Batsman</option>
+                    <option value="Batsman-and-Wicket-Keeper">Batsman and Wicket Keeper</option>
+                    <option value="Bowler">Bowler</option>
+                    <option value="All-Rounder">All Rounder</option>
+                </select>
+                <label for="style">Select Your Play Style</label>
+                <select name="style" id="style">
+                    <option value="Right-Handed">Right Handed</option>
+                    <option value="Left-Handed">Left Handed</option>
+                </select>
+            </div>
+        </div>
         <input type="submit" value="Sign Up" id="submit" class="btn" disabled>
-        <p class="error"></p>
     </form>
-    </div>
-    <div class="club-signup">
-        <form action="" id="club-register" method="post" name="club_signup_form">
-        <label for="club-name">Name</label>
-        <input type="text" id="club-name" name="club-name" placeholder="Enter Club's Name">
-        <label for="club-email">Email</label>
-        <input type="email" id="club-email" name="club-email" placeholder="Enter E-mail">
-
-        <!--            TODO: Make an Eye Icon to reveal password-->
-
-        <label for="club-password">Password</label>
-        <input type="password" id="club-password" name="club-password" onkeyup="check();" placeholder="Enter Password"
-            required>
-        <span id="club-error-message">Entering a character and a number is recommended</span><br>
-        <label for="club-confirm-password">Confirm Password</label>
-        <input type="password" id="club-confirm-password" name="club-confirm-password" onkeyup="check();"
-            placeholder="Re-Enter Password " required>
-        <input type="submit" value="Sign Up" id="club-signup-submit" class="btn" disabled>
-        <p class="error"></p>
-    </form>
-    </div>
 </div>
 {% endblock %}

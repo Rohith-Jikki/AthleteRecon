@@ -1,3 +1,39 @@
+$(document).ready(function() {
+
+    // Listen for the change event on the select tag
+    $('#club-or-player').change(function() {
+      // Get the selected option value
+      var selectedOption = $(this).val();
+  
+      // If Option 2 is selected, show the div; otherwise, hide it
+      if (selectedOption == 'club') {
+        $('.select-sport-container').hide();
+  
+      } else {
+        $('.select-sport-container').show();
+      }
+    });
+  });
+
+$(document).ready(function() {
+    // Hide the div on page load
+    $('.cricket').hide();
+    // Listen for the change event on the select tag
+    $('#sport-select').change(function() {
+      // Get the selected option value
+      var selectedOption = $(this).val();
+  
+      // If Option 2 is selected, show the div; otherwise, hide it
+      if (selectedOption == 'football') {
+        $('.football').show();
+        $('.cricket').hide();
+  
+      } else {
+        $('.football').hide();
+        $('.cricket').show();
+      }
+    });
+  });
 
 var check = function () {
             var password = document.getElementById('passwordInput');

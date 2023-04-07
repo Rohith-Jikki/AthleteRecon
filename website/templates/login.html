@@ -4,8 +4,11 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <div class="player-login">
     <form action="" method="post" id="login">
+        <select name="club-or-player" id="club-or-player">
+            <option value="player" selected>Player</option>
+            <option value="club">Club</option>
+        </select>
         <label for="emailInput">E-mail</label>
         <input type="text" name="emailInput" id="emailInput" placeholder="Enter E-mail" required>
         <label for="passwordInput">Password</label>
@@ -13,17 +16,6 @@
         <input type="password" id="passwordInput" name="passwordInput" placeholder="Enter Password" required>
         <input type="submit" value="Login" id="submit">
     </form>
-<!--        TODO: Same css file for login and signup-->
-</div>
-    <div class="club-login">
-    <form action="" method="post" id="club-login">
-        <label for="club-email">E-mail</label>
-        <input type="text" name="club-email" id="club-email" placeholder="Enter E-mail" required>
-        <label for="club-password">Password</label>
-        <!--            TODO: Make an Eye Icon to reveal password-->
-        <input type="password" id="club-password" name="club-password" placeholder="Enter Password" required>
-        <input type="submit" value="Login" id="club-login-submit">
-    </form>
-        </div>
+
 </div>
 {% endblock %}

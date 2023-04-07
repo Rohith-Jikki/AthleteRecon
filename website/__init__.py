@@ -1,19 +1,26 @@
-import os
+from os import environ
 from flask import Flask
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
 load_dotenv()
 
-client = MongoClient(os.environ.get("REF"))
+
+# DATABASE
+client = MongoClient(environ.get("REF"))
 db = client["user_login_system"]
-users = db['clubs_credentials']
+db_two = client["user_details"]
+
+users = db['players_credentials']
+player_details = db_two['player_details']
+
+club_users = db['clubs_credentials']
 
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = os.environ.get('KEY')
-    app.secret_key = os.environ.get("KEY")
+    app.config['SECRET_KEY'] = environ.get('KEY')
+    app.secret_key = environ.get("KEY")
     from .views import views
     from .auth import auth
 
