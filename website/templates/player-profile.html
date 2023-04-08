@@ -1,18 +1,37 @@
 {% extends "base.html" %} {% block title %}Player-Profile{% endblock %}
+{% block head %}
+<link href="{{url_for('static', filename='css/player_profile.css')}}" rel="stylesheet">
+{% endblock %}
 {% block content %}
 <div class="container">
-    <form action="">
-        <p>Player ID: {{session['user']['_id']}}</p>
-        <p>Name: {{player_details['name']}}</p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-    </form>
+    <div class="details">
+        <p>Player ID: </p>
+        <p>Name: </p>
+        <p>Email: </p>
+        <p>Date Of Birth: </p>
+        <p>Contact Number: </p>
+        <p>Height: </p>
+        <p>Weight: </p>
+        <p>Medical Conditions:</p>
+        <p>Sport: </p>
+        {% if player_details['sport'] == 'football' %}
+        <p>Position: </p>
+        <p>Strong Foot: </p>
+        {% else %}
+        <p>Role:</p>
+        <p>Play Style: </p>
+        {% endif %}
+    </div>
+    <div class="right-box">
+        {% for i in player_details.values()%}
+        {% if i == ' ' %}
+        <p>Null</p>
+        {% else %}
+        <p>{{i}}</p>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+
 </div>
 {% endblock %}

@@ -6,7 +6,7 @@ $("#register").submit(function(e){
     var data = $form.serialize();
     
     if(whereto == 'player'){
-        var url = '/players'
+        var url = '/player-profile'
     }
     else{
         var url = '/clubs'
@@ -31,8 +31,14 @@ $("#login").submit(function(e){
     e.preventDefault();
     var $form = $(this);
     var $error = $form.find(".error");
+    var whereto = $form.find("#club-or-player").val();
     var data = $form.serialize();
-    
+    if(whereto == 'player'){
+        var url = '/player-profile'
+    }
+    else{
+        var url = '/clubs'
+    }
 
     $.ajax({
         url: "/login",
@@ -41,7 +47,7 @@ $("#login").submit(function(e){
         dataType: "json",
         success: function(resp){
             console.log(resp);
-            window.location.href= "/players"
+            window.location.href= url
         },
         error: function(resp){
             console.log(resp);

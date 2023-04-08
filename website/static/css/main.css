@@ -1,3 +1,6 @@
+.body{
+  background-color: #282A3A;
+}
 input {
   width: 100%;
   padding: 12px 20px;
@@ -29,7 +32,7 @@ input {
 
 .container {
   border-radius: 5px;
-  background-color: #f2f2f2;
+  color: white;
   padding: 20px;
 }
 

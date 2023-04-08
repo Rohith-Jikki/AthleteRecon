@@ -11,7 +11,7 @@ def login():
         if (str(request.form.get('club-or-player')) == 'player'):
             return User().login(database=users)
         else:
-            pass
+            return User().login(database=club_users)
     return render_template("login.html")
 
 

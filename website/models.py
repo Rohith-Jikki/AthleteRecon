@@ -32,12 +32,12 @@ class User:
                     "_id": self.id,
                     "name": request.form.get('name'),
                     "email": request.form.get('email'),
-                    "date-of-birth": "",
-                    "contact-number": "",
+                    "date-of-birth": " ",
+                    "contact-number": " ",
                     # physical details
-                    "height": "",
-                    "weight": "",
-                    "medical-conditions": "",
+                    "height": " ",
+                    "weight": " ",
+                    "medical-conditions": " ",
                 }
                 sport = request.form.get("sport-select")
                 if sport == "football":
