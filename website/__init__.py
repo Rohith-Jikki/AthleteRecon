@@ -15,6 +15,7 @@ users = db['players_credentials']
 player_details = db_two['player_details']
 
 club_users = db['clubs_credentials']
+club_details = db_two['club_details']
 
 
 def create_app():

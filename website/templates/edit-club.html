@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Edit Club Profile{% endblock %}
+{% block head %}
+<link href="{{url_for('static', filename='css/main.css')}}" rel="stylesheet">
+<script type="text/javascript" src="{{ url_for('static', filename='main.js') }}" defer></script>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <form action="">
+        <label for="name">Club Name</label>
+        <input id="name" name="name" type="text" value="" onkeyup="nameCheck(this)" required>
+        <span id="error-text"></span>
+        <label for="founder-name">Founder's Name</label>
+        <input id="founder-name" name="founder-name" type="text" value="" onkeyup="nameCheck(this)" required>
+        <br>
+        <label for="date-of-birth">Date of birth</label>
+        <input id="date-of-birth" name="date-of-birth" type="date" required>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
+        <label for="phone">Phone Number</label>
+        <input id="phone" name="phone" type="number" required>
+        <input id="save" name="save" type="submit" value="Save Details">
+        <p class="error"></p>
+
+    </form>
+</div>
+{% endblock %}

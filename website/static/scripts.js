@@ -55,3 +55,25 @@ $("#login").submit(function(e){
         }
     })
 })
+
+$("#edit-details").submit(function(e){
+    e.preventDefault();
+    var $form = $(this);
+    var $error = $form.find(".error");
+    var data = $form.serialize();
+
+    $.ajax({
+        url: "/players",
+        type: "POST",
+        data: data,
+        dataType: "json",
+        success: function(resp){
+            console.log(resp);
+            window.location.href= '/player-profile'
+        },
+        error: function(resp){
+            console.log(resp);
+            $error.text(resp.responseJSON.error);
+        }
+    })
+})

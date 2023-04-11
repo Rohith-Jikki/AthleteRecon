@@ -1,2 +1,22 @@
 {% extends "base.html" %}
 {% block title %}Clubs{% endblock %}
+{% block head %}
+<link href="{{url_for('static', filename='css/club-main.css')}}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="left-box">
+        <p>Club ID: </p>
+        <p>Name: </p>
+        <p>Founder:</p>
+        <p>E-mail: </p>
+        <p>Contact: </p>
+        <p>Sport: </p>
+    </div>
+    <div class="right-box">
+        {% for i in club_details.values()%}
+        <p>{{i}}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

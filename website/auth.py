@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash
 from .models import User
-from .__init__ import users, club_users, player_details
+from .__init__ import users, club_users, player_details, club_details
 
 auth = Blueprint("auth", __name__)
 
@@ -9,9 +9,9 @@ auth = Blueprint("auth", __name__)
 def login():
     if request.method == 'POST':
         if (str(request.form.get('club-or-player')) == 'player'):
-            return User().login(database=users)
+            return User().login(database=users, club_or_player='player')
         else:
-            return User().login(database=club_users)
+            return User().login(database=club_users, club_or_player='club')
     return render_template("login.html")
 
 
@@ -36,6 +36,6 @@ def sign_up():
             if (str(request.form.get('club-or-player')) == 'player'):
                 return User().signup(name='name', email='email', password="password", database=users, details_database=player_details)
             else:
-                return User().signup(name='name', email='email', password="password", database=club_users)
+                return User().signup(name='name', email='email', password="password", database=club_users, details_database=club_details)
 
     return render_template("signup.html")

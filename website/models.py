@@ -3,11 +3,18 @@ import uuid
 from passlib.hash import pbkdf2_sha256
 
 
+def null_or_value(value):
+    if value == " " or value == "" or value == None:
+        return "null"
+    return value
+
+
 class User:
-    def start_session(self, user):
+    def start_session(self, user, club_or_player):
         del user['password']
         session['logged_in'] = True
         session['user'] = user
+        session['club_or_player'] = club_or_player
         return jsonify(user), 200
 
     def signup(self, name, email, password, database, details_database):
@@ -46,9 +53,23 @@ class User:
                         'football-position')
                     player_details["strong_foot"] = request.form.get(
                         'strong-foot')
+                else:
+                    player_details['sport'] = sport
+                    player_details['role'] = request.form.get('role')
+                    player_details['play-style'] = request.form.get('style')
                 details_database.insert_one(player_details)
-
-            return self.start_session(user)
+                return self.start_session(user, club_or_player='player')
+            else:
+                club_details = {
+                    "_id": self.id,
+                    "name": request.form.get('name'),
+                    "founder": "null",
+                    "email": request.form.get('email'),
+                    "contact-number": "null",
+                    "sport": request.form.get('sport-select')
+                }
+                details_database.insert_one(club_details)
+            return self.start_session(user, club_or_player='club')
 
         return jsonify({"error": "account cannot be created"}), 400
 
@@ -56,10 +77,27 @@ class User:
         session.clear()
         return redirect('/')
 
-    def login(self, database):
+    def login(self, database, club_or_player):
         user = database.find_one({
             "email": request.form.get("emailInput")
         })
         if user and pbkdf2_sha256.verify(request.form.get("passwordInput"), user['password']):
-            return self.start_session(user)
+            return self.start_session(user, club_or_player=club_or_player)
         return jsonify({"error": "Invalid login credentials"}), 401
+
+    def update_profile(self, database, previous_data_identifier):
+
+        if database.update_one(previous_data_identifier, {
+            "$set": {
+                "name": request.form.get('name'),
+                "email": request.form.get('email'),
+                "date-of-birth": request.form.get('date-of-birth'),
+                "contact-number": request.form.get('phone'),
+                # physical details
+                "height": request.form.get('height'),
+                "weight": request.form.get('weight'),
+                "medical-conditions": null_or_value(request.form.get('medical-conditions'))
+            }
+        }):
+            return jsonify({"success": "Details Updated"}), 200
+        return jsonify({"error": "Cannont Update Details"}), 400
