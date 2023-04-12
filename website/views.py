@@ -5,8 +5,14 @@ from .__init__ import player_details, club_details
 
 views = Blueprint("views", __name__)
 
-# Decorators
 
+def null_or_value(value):
+    if value == " " or value == "" or value == None:
+        return "null"
+    return value
+
+
+# Decorators
 
 def player(function):
     @wraps(function)
@@ -52,7 +58,18 @@ def player_page():
     playerDetails = player_details.find_one({'_id': session['user']['_id']})
     if request.method == 'POST':
         return User().update_profile(previous_data_identifier={
-            '_id': session['user']['_id']}, database=player_details)
+            '_id': session['user']['_id']}, database=player_details, new_data={
+            "$set": {
+                "name": request.form.get('name'),
+                "email": request.form.get('email'),
+                "date-of-birth": request.form.get('date-of-birth'),
+                "contact-number": request.form.get('phone'),
+                # physical details
+                "height": request.form.get('height'),
+                "weight": request.form.get('weight'),
+                "medical-conditions": null_or_value(request.form.get('medical-conditions'))
+            }
+        })
     return render_template('main.html', playerDetails=playerDetails)
 
 
@@ -85,4 +102,20 @@ def clubs_page():
 @login_required
 @club
 def edit_club_details():
+    if request.method == 'POST':
+        return User().update_profile(database=club_details, previous_data_identifier={"_id": session['user']['_id']}, new_data={
+            "$set": {
+                "name": request.form.get('name'),
+                "email": request.form.get('email'),
+                "founder-name": request.form.get('founder-name'),
+                "contact-number": request.form.get('phone'),
+            }
+        })
     return render_template("edit-club.html")
+
+
+@views.route('/recruit', methods=['GET', 'POST'])
+@login_required
+@club
+def recruit_players():
+    return render_template("recruit.html", player_details=player_details.find())

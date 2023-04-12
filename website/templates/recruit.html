@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Recruit{% endblock %}
+{% block head %}
+<link href="{{url_for('static', filename='css/recruit.css')}}" rel="stylesheet">
+<!-- <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}" defer></script>  -->
+{% endblock %}
+{% block content %}
+<div class="container">
+    {% for item in player_details %}
+    <div class="player">
+        <p>{{item['name']}}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

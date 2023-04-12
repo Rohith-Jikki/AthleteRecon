@@ -3,12 +3,6 @@ import uuid
 from passlib.hash import pbkdf2_sha256
 
 
-def null_or_value(value):
-    if value == " " or value == "" or value == None:
-        return "null"
-    return value
-
-
 class User:
     def start_session(self, user, club_or_player):
         del user['password']
@@ -39,12 +33,12 @@ class User:
                     "_id": self.id,
                     "name": request.form.get('name'),
                     "email": request.form.get('email'),
-                    "date-of-birth": " ",
-                    "contact-number": " ",
+                    "date-of-birth": "null",
+                    "contact-number": "null",
                     # physical details
-                    "height": " ",
-                    "weight": " ",
-                    "medical-conditions": " ",
+                    "height": "null",
+                    "weight": "null",
+                    "medical-conditions": "null",
                 }
                 sport = request.form.get("sport-select")
                 if sport == "football":
@@ -63,7 +57,7 @@ class User:
                 club_details = {
                     "_id": self.id,
                     "name": request.form.get('name'),
-                    "founder": "null",
+                    "founder-name": "null",
                     "email": request.form.get('email'),
                     "contact-number": "null",
                     "sport": request.form.get('sport-select')
@@ -85,19 +79,7 @@ class User:
             return self.start_session(user, club_or_player=club_or_player)
         return jsonify({"error": "Invalid login credentials"}), 401
 
-    def update_profile(self, database, previous_data_identifier):
-
-        if database.update_one(previous_data_identifier, {
-            "$set": {
-                "name": request.form.get('name'),
-                "email": request.form.get('email'),
-                "date-of-birth": request.form.get('date-of-birth'),
-                "contact-number": request.form.get('phone'),
-                # physical details
-                "height": request.form.get('height'),
-                "weight": request.form.get('weight'),
-                "medical-conditions": null_or_value(request.form.get('medical-conditions'))
-            }
-        }):
+    def update_profile(self, database, previous_data_identifier, new_data):
+        if database.update_one(previous_data_identifier, new_data):
             return jsonify({"success": "Details Updated"}), 200
         return jsonify({"error": "Cannont Update Details"}), 400
