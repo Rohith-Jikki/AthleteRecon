@@ -39,3 +39,16 @@ input[type=submit]:disabled{
   color:grey;
   font-size: 12px;
 }
+
+.gender{
+  display: flex;
+  align-items: center;
+}
+
+input[type=radio]{
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  width: 29%;
+  margin-bottom: 20px;
+}

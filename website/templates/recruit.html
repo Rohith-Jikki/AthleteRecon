@@ -6,10 +6,34 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    {% for item in player_details %}
+
     <div class="player">
-        <p>{{item['name']}}</p>
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Medical Conditions</th>
+                <th>Sport</th>
+            </thead>
+            {% for item in player_details %}
+            <tr>
+                <td>{{item['name']}}</td>
+                {% if item['date-of-birth'] == 'null' %}
+                <td>{{item['date-of-birth']}}</td>
+                {% else %}
+                <td>{{calculateAge(item['date-of-birth'])}}</td>
+                {% endif %}
+                <td>{{item['height']}}cm</td>
+                <td>{{item['weight']}}kg</td>
+                <td>{{item['medical-conditions']}}</td>
+                <td>{{item['sport']}}</td>
+                <td class="button"><button class="goto-profile">See Profile</button></td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
-    {% endfor %}
+
 </div>
 {% endblock %}

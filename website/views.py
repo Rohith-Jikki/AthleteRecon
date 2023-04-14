@@ -1,18 +1,13 @@
 from flask import Blueprint, render_template, redirect, session, request
 from functools import wraps
 from .models import User
-from .__init__ import player_details, club_details
+from .__init__ import player_details, club_details, player_posts
+from .common_functions import *
 
 views = Blueprint("views", __name__)
 
-
-def null_or_value(value):
-    if value == " " or value == "" or value == None:
-        return "null"
-    return value
-
-
 # Decorators
+
 
 def player(function):
     @wraps(function)
@@ -77,7 +72,8 @@ def player_page():
 @login_required
 @player
 def career_page():
-    return render_template("career.html")
+    posts = player_posts[session['user']['_id']]
+    return render_template("career.html", posts=posts.find(), image_maker=image_maker)
 
 
 @views.route('/player-profile', methods=['GET', 'POST'])
@@ -86,6 +82,15 @@ def career_page():
 def player_profile_page():
     playerDetails = player_details.find_one({'_id': session['user']['_id']})
     return render_template("player-profile.html", player_details=playerDetails)
+
+
+@views.route('/add-post', methods=['GET', 'POST'])
+@login_required
+@player
+def add_post():
+    if request.method == "POST":
+        return User().post(database=player_posts)
+    return render_template("add-post.html")
 
 
 # Club pages
@@ -118,4 +123,4 @@ def edit_club_details():
 @login_required
 @club
 def recruit_players():
-    return render_template("recruit.html", player_details=player_details.find())
+    return render_template("recruit.html", player_details=player_details.find(), calculateAge=calculateAge)

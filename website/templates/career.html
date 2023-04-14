@@ -1,6 +1,16 @@
 {% extends "base.html" %} {% block title %}Career{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/career.css')}}">
+{% endblock %}
 {% block content %}
-  <div class="container">
-
-  </div>
+<div class="container">
+    {% for post in posts %}
+    <div class="post">
+        <h2>{{post['title']}}</h2>
+        <img src="{{image_maker(image=post['image'],content_type= post['content-type'])}}">
+        <p>{{post['description']}}</p>
+        <p class="date">{{post['date']}}</p>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}

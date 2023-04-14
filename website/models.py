@@ -1,3 +1,5 @@
+from base64 import b64encode
+from datetime import date
 from flask import jsonify, request, session, redirect
 import uuid
 from passlib.hash import pbkdf2_sha256
@@ -36,6 +38,7 @@ class User:
                     "date-of-birth": "null",
                     "contact-number": "null",
                     # physical details
+                    "gender": request.form.get('gender'),
                     "height": "null",
                     "weight": "null",
                     "medical-conditions": "null",
@@ -83,3 +86,19 @@ class User:
         if database.update_one(previous_data_identifier, new_data):
             return jsonify({"success": "Details Updated"}), 200
         return jsonify({"error": "Cannont Update Details"}), 400
+
+    def post(self, database):
+        image = request.files['certificate'].read()
+        image_b64 = b64encode(image)
+        document = {
+            "_id": uuid.uuid4().hex,
+            "title": request.form.get('title'),
+            "image": image_b64,
+            "description": request.form.get('post-description'),
+            "content-type": request.files['certificate'].content_type,
+            "date": f'{date.today()}'
+        }
+        post_location = database[session['user']['_id']]
+        if post_location.insert_one(document):
+            return redirect('/career')
+        return jsonify({"error": "Cannot Post"}), 500

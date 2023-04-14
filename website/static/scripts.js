@@ -36,7 +36,7 @@ $("#login").submit(function(e){
     submit_processor($(this), current_url='/login')
 })
 
-function editDetails(form,current_url, where_to) {
+function form_submit_function(form,current_url, where_to) {
     var $form = form;
     var $error = $form.find(".error");
     var data = $form.serialize();
@@ -59,9 +59,11 @@ function editDetails(form,current_url, where_to) {
 
 $("#edit-details").submit(function(e){
     e.preventDefault();
-    editDetails(form=$(this), current_url="/players", where_to="/player-profile")
+    form_submit_function(form=$(this), current_url="/players", where_to="/player-profile")
 });
+
 $("#edit-club-details").submit(function(e){
     e.preventDefault();
-    editDetails(form=$(this), current_url="/edit-club-profile", where_to="/clubs")
+    form_submit_function(form=$(this), current_url="/edit-club-profile", where_to="/clubs")
 });
+

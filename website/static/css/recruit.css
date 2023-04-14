@@ -1,0 +1,54 @@
+body{
+    color:white;
+}
+
+.player{
+    width:100%;
+    display: flex;
+}
+
+.circle{
+ 
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    background: white;
+    margin-top: 10px;
+}
+
+.container {
+	
+	font-family: sans-serif;
+	font-weight: 100;   
+}
+
+table{
+    margin-top: 10px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+thead th{
+    border:1px solid rgba(255, 255, 255, 0.3);
+    text-align: left;
+    padding: 20px;
+    background-color: #55608f;;
+}
+td{
+    padding: 20px;
+    border:1px solid rgba(255, 255, 255, 0.3);
+    background-color: rgba(255,255,255,0.2);
+}
+
+tr:hover{
+    background-color: rgba(255,255,255,0.3);
+}
+
+.button{
+    padding: 5px;
+}
+
+.goto-profile{
+    padding: 10px;
+    width: 100%;
+}

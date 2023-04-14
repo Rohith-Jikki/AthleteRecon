@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block title %}Add Post{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/signup.css')}}">{% endblock %}
+{% block content %}
+<div class="container">
+    <form action="" method="post" id="post-form" enctype="multipart/form-data">
+        <label for="title">Enter Title: </label>
+        <input type="text" name="title" id="title" required>
+        <label for="certificate">Upload Certificate Image:</label>
+        <input type="file" name="certificate" id="certificate" required accept="image/png, image/jpeg">
+        <label for="post-description">Tell about your post:</label>
+        <textarea name="post-description" id="post-description" cols="40" rows="10" placeholder="Enter the post details"
+            style="width: 100%;"></textarea>
+        <input type="submit" value="Submit">
+        <p class="error"></p>
+    </form>
+</div>
+{% endblock %}

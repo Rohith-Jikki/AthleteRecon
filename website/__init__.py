@@ -10,6 +10,7 @@ load_dotenv()
 client = MongoClient(environ.get("REF"))
 db = client["user_login_system"]
 db_two = client["user_details"]
+player_posts = client["player_posts"]
 
 users = db['players_credentials']
 player_details = db_two['player_details']

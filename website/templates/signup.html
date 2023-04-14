@@ -18,7 +18,15 @@
         <label for="emailInput">Email</label>
         <input type="email" id="emailInput" name="email" placeholder="Enter E-mail">
 
-        <!--            TODO: Make an Eye Icon to reveal password-->
+        <div class="gender">
+            <h4>Select your gender</h4>
+            <label for="male-gender">Male</label>
+            <input type="radio" name="gender" id="male-gender" required value="male">
+            <label for="female-gender">Female</label>
+            <input type="radio" name="gender" id="female-gender" value="female">
+            <label for="other-gender">Other</label>
+            <input type="radio" name="gender" id="other-gender" value="other">
+        </div>
 
         <label for="passwordInput">Password</label>
         <input type="password" id="passwordInput" name="password" onkeyup="check();" placeholder="Enter Password"

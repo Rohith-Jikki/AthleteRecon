@@ -1,4 +1,8 @@
-from __init__ import player_details
+from __init__ import player_posts
+import base64
+test = player_posts["79e940993f554e41a6689ac27b424c42"]
+for post in test.find():
+    hello = post['image']
 
-player_details.update_one({"_id": "56cce03efbf743fd9ac2cf2c97ee0843"}, {
-                          "$set": {"height": "150"}})
+with open("imageToSave.png", "wb") as fh:
+    fh.write(base64.decodebytes(hello))
