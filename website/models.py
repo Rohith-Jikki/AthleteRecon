@@ -1,5 +1,4 @@
 from base64 import b64encode
-from datetime import date
 from flask import jsonify, request, session, redirect
 import uuid
 from passlib.hash import pbkdf2_sha256
@@ -96,9 +95,43 @@ class User:
             "image": image_b64,
             "description": request.form.get('post-description'),
             "content-type": request.files['certificate'].content_type,
-            "date": f'{date.today()}'
+            "date": request.form.get('date')
         }
         post_location = database[session['user']['_id']]
         if post_location.insert_one(document):
             return redirect('/career')
+        return jsonify({"error": "Cannot Post"}), 500
+
+
+class Post:
+    def add_post_analysis(self, date, post_id, database) -> bool:
+        # Check if the date already exists in the database
+        post = database.find_one({'date': date})
+        if post is None:
+            if database.insert_one(
+                    {'date': date, 'post_count': 1, 'posts': [post_id]}):
+                return True
+        else:
+            return True if database.update_one({'date': date}, {'$inc': {'post_count': 1}, '$push': {'posts': post_id}}) else False
+        return False
+
+    def post(self, database, analysis_database):
+        image = request.files['certificate'].read()
+        date = request.form.get('date')
+        post_id = uuid.uuid4().hex
+        player_id = session['user']['_id']
+        image_b64 = b64encode(image)
+        document = {
+            "_id": post_id,
+            "title": request.form.get('title'),
+            "image": image_b64,
+            "description": request.form.get('post-description'),
+            "content-type": request.files['certificate'].content_type,
+            "date": date
+        }
+        post_location = database[player_id]
+        analysis_database_location = analysis_database[player_id]
+        if post_location.insert_one(document):
+            if self.add_post_analysis(date=date, post_id=post_id, database=analysis_database_location):
+                return redirect('/career')
         return jsonify({"error": "Cannot Post"}), 500

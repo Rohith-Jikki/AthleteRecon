@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, session, request
 from functools import wraps
-from .models import User
-from .__init__ import player_details, club_details, player_posts
+from .models import *
+from .__init__ import player_details, club_details, player_posts, player_posts_analysis
 from .common_functions import *
 
 views = Blueprint("views", __name__)
@@ -89,7 +89,7 @@ def player_profile_page():
 @player
 def add_post():
     if request.method == "POST":
-        return User().post(database=player_posts)
+        return Post().post(database=player_posts, analysis_database=player_posts_analysis)
     return render_template("add-post.html")
 
 
