@@ -1,7 +1,49 @@
 body{
     background-color: #282A3A;
 }
+
 .container{
-    display: flex;
     color: white;
+    margin-top: 12px;
+    backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(61, 83, 124, 0.25);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);  
+  padding: 38px;  
+  filter: drop-shadow(0 30px 10px rgba(0,0,0,0.125));
+
+}
+.card{
+    backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  background-color: rgba(17, 25, 40, 0.25);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);  
+  filter: drop-shadow(0 30px 10px rgba(0,0,0,0.125));  
+}
+
+#profile-table {
+    
+    display: flex;
+    padding: 20px;
+}
+
+#profile-table tr{
+    display: flex;
+    flex-direction: column;
+}
+
+#profile-table th{
+    padding: 12px;
+    text-align: left;
+}
+
+#profile-table td{
+    padding: 12px 12px 12px 40px;
+}
+
+#post_analysis{
+    background-color: rgb(146, 205, 223);
+    margin: 10px;
 }

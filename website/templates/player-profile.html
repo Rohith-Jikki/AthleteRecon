@@ -1,38 +1,93 @@
 {% extends "base.html" %} {% block title %}Player-Profile{% endblock %}
 {% block head %}
 <link href="{{url_for('static', filename='css/player_profile.css')}}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 {% block content %}
 <div class="container">
     <div class="details">
-        <p>Player ID: </p>
-        <p>Name: </p>
-        <p>Email: </p>
-        <p>Date Of Birth: </p>
-        <p>Contact Number: </p>
-        <p>Gender: </p>
-        <p>Height: </p>
-        <p>Weight: </p>
-        <p>Medical Conditions:</p>
-        <p>Sport: </p>
-        {% if player_details['sport'] == 'football' %}
-        <p>Position: </p>
-        <p>Strong Foot: </p>
-        {% else %}
-        <p>Role:</p>
-        <p>Play Style: </p>
-        {% endif %}
+        <h2>Profile</h2>
+        <div class="card">
+            <div class="card-body">
+                <table id="profile-table">
+                    <thead>
+                        <tr>
+                            <th>Player ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date Of Birth</th>
+                            <th>Contact Number</th>
+                            <th>Gender</th>
+                            <th>Height</th>
+                            <th>Weight</th>
+                            <th>Medical Conditions</th>
+                            <th>Sport</th>
+                            {% if player_details['sport'] == 'football' %}
+                            <th>Position: </th>
+                            <th>Strong Foot: </th>
+                            {% else %}
+                            <th>Role:</th>
+                            <th>Play Style: </th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for i in player_details.values()%}
+                            {% if i == ' ' %}
+                            <td>Null</td>
+                            {% else %}
+                            <td>{{i}}</td>
+                            {% endif %}
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="right-box">
-        {% for i in player_details.values()%}
-        {% if i == ' ' %}
-        <p>Null</p>
-        {% else %}
-        <p>{{i}}</p>
-        {% endif %}
-        {% endfor %}
+    <div class="graph">
+        <canvas id="post_analysis"></canvas>
     </div>
+    <script>
+        Chart.defaults.color = "black";
+        Chart.defaults.font.size = 18;
+        var data_from_python = {{ data| tojson }};
+        var data = {
+            labels: Object.keys(data_from_python),
+            datasets: [{
+                label: "Activity",
+                data: Object.values(data_from_python),
+                fill: true,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.3,
+            }]
+        };
+        var options = {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time Period'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    displaye: true,
+                    title: {
+                        display: true,
+                        text: 'Number Of Posts'
+                    }
+                }
+            }
+        };
+        var ctx = document.getElementById("post_analysis").getContext("2d");
+        var analysisChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
 
-
+    </script>
 </div>
 {% endblock %}

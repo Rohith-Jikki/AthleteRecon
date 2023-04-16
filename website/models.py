@@ -132,6 +132,6 @@ class Post:
         post_location = database[player_id]
         analysis_database_location = analysis_database[player_id]
         if post_location.insert_one(document):
-            if self.add_post_analysis(date=date, post_id=post_id, database=analysis_database_location):
+            if self.add_post_analysis(date=date[:7], post_id=post_id, database=analysis_database_location):
                 return redirect('/career')
         return jsonify({"error": "Cannot Post"}), 500

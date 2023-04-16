@@ -80,8 +80,12 @@ def career_page():
 @login_required
 @player
 def player_profile_page():
-    playerDetails = player_details.find_one({'_id': session['user']['_id']})
-    return render_template("player-profile.html", player_details=playerDetails)
+    player_id = {'_id': session['user']['_id']}
+    playerDetails = player_details.find_one(player_id)
+    player_post_analysis_details = player_posts_analysis["a040eb1e56ff4cf8a26f641f8690d7e1"]
+    data = {item['date']: item['post_count']
+            for item in player_post_analysis_details.find()}
+    return render_template("player-profile.html", player_details=playerDetails, data=data)
 
 
 @views.route('/add-post', methods=['GET', 'POST'])
