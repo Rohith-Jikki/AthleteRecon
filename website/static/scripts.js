@@ -2,7 +2,7 @@ function submit_processor(form, current_url){
     var $form = form;
     var $error = $form.find(".error");
     var whereto = $form.find("#club-or-player").val();
-    var data = $form.serialize();
+    var formData = new FormData($form.get(0));
     
     if(whereto == 'player'){
         var url = '/player-profile'
@@ -13,8 +13,10 @@ function submit_processor(form, current_url){
     $.ajax({
         url: current_url,
         type: "POST",
-        data: data,
-        dataType: "json",
+        data: formData,
+        processData:false,
+        contentType:false,
+
         success: function(resp){
             console.log(resp);
             window.location.href= url

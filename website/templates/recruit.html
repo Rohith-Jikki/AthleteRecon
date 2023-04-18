@@ -29,7 +29,12 @@
                 <td>{{item['weight']}}kg</td>
                 <td>{{item['medical-conditions']}}</td>
                 <td>{{item['sport']}}</td>
-                <td class="button"><button class="goto-profile">See Profile</button></td>
+                <td class="button">
+                    <form action="" method="post" target="_blank">
+                        <button class="goto-profile" value="{{item['_id']}}" type="submit"
+                            name="player_profile_button">See Profile</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </table>

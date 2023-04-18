@@ -8,16 +8,19 @@
 <script type="text/javascript" src="{{ url_for('static', filename='signup.js') }}" defer></script>
 
 <div class="container">
-    <form action="" id="register" method="post" name="signup_form">
+    <form action="" id='register' method="post" enctype="multipart/form-data">
+        <label for="picture">Upload your profile picture</label>
+        <input type="file" id="picture" name="picture" required accept="image/png, image/jpeg">
+        <label for="club-or-player">Select Your Role</label>
         <select name="club-or-player" id="club-or-player">
             <option value="player" selected>Player</option>
             <option value="club">Club</option>
         </select>
+
         <label for="name">Name</label>
         <input type="text" id="name" name="name" placeholder="Enter your name">
         <label for="emailInput">Email</label>
         <input type="email" id="emailInput" name="email" placeholder="Enter E-mail">
-
         <div class="gender">
             <h4>Select your gender</h4>
             <label for="male-gender">Male</label>
@@ -77,5 +80,6 @@
         </div>
         <input type="submit" value="Sign Up" id="submit" class="btn" disabled>
     </form>
+
 </div>
 {% endblock %}

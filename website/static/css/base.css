@@ -34,7 +34,7 @@ input, select{
   }
   
   
-input[type=submit]{
+input[type=submit], button{
     display: inline-block;
     padding: 24px 32px;
     border: 0;
@@ -50,8 +50,8 @@ input[type=submit]{
     text-transform: uppercase;
   }
   
-  input[type=submit]:hover {
-    background-color: rgba(255,255,255,0.2);
+  input[type=submit]:hover , button:hover{
+    background-color: rgba(255, 252, 205, 0.2);
   }
   select{
     background-color: rgba(255, 255, 255, .15);  

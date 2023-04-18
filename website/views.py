@@ -81,11 +81,14 @@ def career_page():
 @player
 def player_profile_page():
     player_id = {'_id': session['user']['_id']}
-    playerDetails = player_details.find_one(player_id)
-    player_post_analysis_details = player_posts_analysis["a040eb1e56ff4cf8a26f641f8690d7e1"]
+    playerDetails = player_details.find_one(
+        player_id, {"profile-picture": 0, "profile-picture-type": 0})
+    pictureDetails = player_details.find_one(
+        player_id, {"profile-picture": 1, "profile-picture-type": 1})
+    player_post_analysis_details = player_posts_analysis[player_id['_id']]
     data = {item['date']: item['post_count']
             for item in player_post_analysis_details.find()}
-    return render_template("player-profile.html", player_details=playerDetails, data=data)
+    return render_template("player-profile.html", player_details=playerDetails, data=data, pictureDetails=pictureDetails, image_maker=image_maker)
 
 
 @views.route('/add-post', methods=['GET', 'POST'])
@@ -127,4 +130,20 @@ def edit_club_details():
 @login_required
 @club
 def recruit_players():
+    if request.method == "POST":
+        session['player_id'] = request.form.get('player_profile_button')
+        return redirect('/player-recruit-profile')
     return render_template("recruit.html", player_details=player_details.find(), calculateAge=calculateAge)
+
+
+@views.route('/player-recruit-profile')
+@login_required
+@club
+def player_recruit_profile():
+    player_id = session['player_id']
+    playerDetails = player_details.find_one(player_id)
+    player_post_analysis_details = player_posts_analysis[player_id]
+    data = {item['date']: item['post_count']
+            for item in player_post_analysis_details.find()}
+    posts = player_posts[player_id]
+    return render_template("recruit-profile.html", player_details=playerDetails, player_post_analysis_details=player_post_analysis_details, data=data, posts=posts.find(), image_maker=image_maker)

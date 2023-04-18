@@ -6,88 +6,90 @@
 {% block content %}
 <div class="container">
     <div class="details">
-        <h2>Profile</h2>
-        <div class="card">
-            <div class="card-body">
-                <table id="profile-table">
-                    <thead>
-                        <tr>
-                            <th>Player ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Date Of Birth</th>
-                            <th>Contact Number</th>
-                            <th>Gender</th>
-                            <th>Height</th>
-                            <th>Weight</th>
-                            <th>Medical Conditions</th>
-                            <th>Sport</th>
-                            {% if player_details['sport'] == 'football' %}
-                            <th>Position: </th>
-                            <th>Strong Foot: </th>
-                            {% else %}
-                            <th>Role:</th>
-                            <th>Play Style: </th>
-                            {% endif %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            {% for i in player_details.values()%}
-                            {% if i == ' ' %}
-                            <td>Null</td>
-                            {% else %}
-                            <td>{{i}}</td>
-                            {% endif %}
-                            {% endfor %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <h2>Profile</h2><img
+            src="{{image_maker(image=pictureDetails['profile-picture'],content_type= pictureDetails['profile-picture-type'])}}"
+            id="profile-photo">
+        <div class=" card">
+            <table id="profile-table">
+                <thead>
+                    <tr>
+                        <th>Player ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Date Of Birth</th>
+                        <th>Contact Number</th>
+                        <th>Gender</th>
+                        <th>Height</th>
+                        <th>Weight</th>
+                        <th>Medical Conditions</th>
+                        <th>Sport</th>
+                        {% if player_details['sport'] == 'football' %}
+                        <th>Position: </th>
+                        <th>Strong Foot: </th>
+                        {% else %}
+                        <th>Role:</th>
+                        <th>Play Style: </th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for i in player_details.values()%}
+                        {% if i == ' ' %}
+                        <td>Null</td>
+                        {% else %}
+                        <td>{{i}}</td>
+                        {% endif %}
+
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="graph">
-        <canvas id="post_analysis"></canvas>
-    </div>
-    <script>
-        Chart.defaults.color = "black";
-        Chart.defaults.font.size = 18;
-        var data_from_python = {{ data| tojson }};
-        var data = {
-            labels: Object.keys(data_from_python),
-            datasets: [{
-                label: "Activity",
-                data: Object.values(data_from_python),
-                fill: true,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.3,
-            }]
-        };
-        var options = {
-            scales: {
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Time Period'
-                    }
-                },
-                y: {
-                    beginAtZero: true,
-                    displaye: true,
-                    title: {
-                        display: true,
-                        text: 'Number Of Posts'
-                    }
+</div>
+<div class="graph">
+    <canvas id="post_analysis"></canvas>
+</div>
+<script>
+    Chart.defaults.color = "black";
+    Chart.defaults.font.size = 18;
+    var data_from_python = {{ data| tojson }};
+    var data = {
+        labels: Object.keys(data_from_python),
+        datasets: [{
+            label: "Activity",
+            data: Object.values(data_from_python),
+            fill: true,
+            borderColor: 'rgb(75, 192, 192)',
+            tension: 0.1,
+        }]
+    };
+    var options = {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Time Period'
+                }
+            },
+            y: {
+                beginAtZero: true,
+                displaye: true,
+                title: {
+                    display: true,
+                    text: 'Number Of Posts'
                 }
             }
-        };
-        var ctx = document.getElementById("post_analysis").getContext("2d");
-        var analysisChart = new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: options
-        });
+        }
+    };
+    var ctx = document.getElementById("post_analysis").getContext("2d");
+    var analysisChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
+    });
 
-    </script>
+</script>
 </div>
 {% endblock %}

@@ -30,12 +30,16 @@ class User:
         # Insert into the Database
         if database.insert_one(user):
             if request.form.get('club-or-player') == 'player':
+                profile_picture = request.files['picture'].read()
+                self.profile_image = b64encode(profile_picture)
                 player_details = {
                     "_id": self.id,
                     "name": request.form.get('name'),
                     "email": request.form.get('email'),
                     "date-of-birth": "null",
                     "contact-number": "null",
+                    "profile-picture": self.profile_image,
+                    "profile-picture-type": request.files['picture'].content_type,
                     # physical details
                     "gender": request.form.get('gender'),
                     "height": "null",
