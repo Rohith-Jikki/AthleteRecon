@@ -1,22 +1,23 @@
 {% extends "base.html" %} {% block title %}Login{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/signup.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
 {% endblock %}
 {% block content %}
 <div class="container">
-    <form action="" method="post" id="login">
-        <select name="club-or-player" id="club-or-player">
-            <option value="player" selected>Player</option>
-            <option value="club">Club</option>
-        </select>
-        <label for="emailInput">E-mail</label>
-        <input type="text" name="emailInput" id="emailInput" placeholder="Enter E-mail" required>
-        <label for="passwordInput">Password</label>
-        <!--            TODO: Make an Eye Icon to reveal password-->
-        <input type="password" id="passwordInput" name="passwordInput" placeholder="Enter Password" required>
-        <p class="error"></p>
-        <input type="submit" value="Login" id="submit">
-    </form>
-
+    <div class="card">
+        <form action="" method="post" id="login">
+            <select name="club-or-player" id="club-or-player">
+                <option value="player" selected>Player</option>
+                <option value="club">Club</option>
+            </select>
+            <label for="emailInput">E-mail</label>
+            <input type="text" name="emailInput" id="emailInput" placeholder="Enter E-mail" required>
+            <label for="passwordInput">Password</label>
+            <!--            TODO: Make an Eye Icon to reveal password-->
+            <input type="password" id="passwordInput" name="passwordInput" placeholder="Enter Password" required>
+            <p class="error"></p>
+            <input type="submit" value="Login" id="submit">
+        </form>
+    </div>
 </div>
 {% endblock %}

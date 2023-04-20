@@ -10,7 +10,8 @@
 <div class="container">
     <form action="" id='register' method="post" enctype="multipart/form-data">
         <label for="picture">Upload your profile picture</label>
-        <input type="file" id="picture" name="picture" required accept="image/png, image/jpeg">
+        <input type="file" id="picture" name="picture" required accept="image/png, image/jpeg" onchange="readUrl(this)">
+        <img src="" alt="" id="profile-picture-display">
         <label for="club-or-player">Select Your Role</label>
         <select name="club-or-player" id="club-or-player">
             <option value="player" selected>Player</option>

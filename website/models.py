@@ -29,6 +29,9 @@ class User:
 
         # Insert into the Database
         if database.insert_one(user):
+            profile_picture = request.files['picture'].read()
+            self.profile_image = b64encode(profile_picture)
+            profile_image_type = request.files['picture'].content_type
             if request.form.get('club-or-player') == 'player':
                 profile_picture = request.files['picture'].read()
                 self.profile_image = b64encode(profile_picture)
@@ -39,7 +42,7 @@ class User:
                     "date-of-birth": "null",
                     "contact-number": "null",
                     "profile-picture": self.profile_image,
-                    "profile-picture-type": request.files['picture'].content_type,
+                    "profile-picture-type": profile_image_type,
                     # physical details
                     "gender": request.form.get('gender'),
                     "height": "null",
@@ -66,7 +69,9 @@ class User:
                     "founder-name": "null",
                     "email": request.form.get('email'),
                     "contact-number": "null",
-                    "sport": request.form.get('sport-select')
+                    "sport": request.form.get('sport-select'),
+                    "profile-picture": self.profile_image,
+                    "profile-picture-type": profile_image_type
                 }
                 details_database.insert_one(club_details)
             return self.start_session(user, club_or_player='club')

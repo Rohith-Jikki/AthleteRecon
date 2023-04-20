@@ -1,0 +1,31 @@
+
+.card{
+    color:white;
+    margin: 30px auto;
+    width: 50%;
+    background-color: rgba(255,255,255,0.13);
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 35px 35px;
+}
+
+label{
+    float: left;
+    font-weight: bold;
+}
+
+::placeholder, input[type=text]{
+    font-weight: 100;
+}
+
+select{
+    background-color: rgba(255, 255, 255, 0);
+}
+
+input[type=submit]{
+    width: auto;
+    margin: 0 auto;
+    display: block;
+}

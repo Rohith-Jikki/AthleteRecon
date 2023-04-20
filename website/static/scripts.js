@@ -41,13 +41,14 @@ $("#login").submit(function(e){
 function form_submit_function(form,current_url, where_to) {
     var $form = form;
     var $error = $form.find(".error");
-    var data = $form.serialize();
+    var formData = new FormData($form.get(0));
     
     $.ajax({
         url: current_url,
         type: "POST",
-        data: data,
-        dataType: "json",
+        data: formData,
+        processData:false,
+        contentType:false,
         success: function(resp){
             console.log(resp);
             window.location.href= where_to

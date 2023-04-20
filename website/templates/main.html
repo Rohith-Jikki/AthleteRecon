@@ -7,7 +7,10 @@
 
 <div class="container">
 
-    <form action="" class="details" method="post" name="edit-details" id="edit-details">
+    <form action="" class="details" method="post" name="edit-details" id="edit-details" enctype="multipart/form-data">
+        <label for="profile-picture">Upload profile picture</label>
+        <input type="file" name="picture" id="profile-picture" accept="image/png, image/jpeg" onchange="readUrl(this)">
+        <img src="" alt="" id="profile-picture-display"><br>
         <label for="name">Name</label>
         <input id="name" name="name" type="text" value="{{playerDetails['name']}}" onkeyup="nameCheck(this)" required>
         <span id="error-text"></span>

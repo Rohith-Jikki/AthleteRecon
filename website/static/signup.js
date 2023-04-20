@@ -8,9 +8,12 @@ $(document).ready(function() {
       // If Option 2 is selected, show the div; otherwise, hide it
       if (selectedOption == 'club') {
         $('.select-sport-container').hide();
+        $('.gender').hide();
+        $('#male-gender').removeAttr("required");
   
       } else {
         $('.select-sport-container').show();
+        $('.gender').show();
       }
     });
   });

@@ -59,6 +59,9 @@ def player_page():
                 "email": request.form.get('email'),
                 "date-of-birth": request.form.get('date-of-birth'),
                 "contact-number": request.form.get('phone'),
+                "profile-picture": b64encode(request.files['picture'].read()),
+                "profile-picture-type": request.files['picture'].content_type,
+
                 # physical details
                 "height": request.form.get('height'),
                 "weight": request.form.get('weight'),
@@ -106,7 +109,8 @@ def add_post():
 @login_required
 @club
 def clubs_page():
-    clubDetails = club_details.find_one({"_id": session['user']['_id']})
+    clubDetails = club_details.find_one({"_id": session['user']['_id']}, {
+                                        "profile-picture": 0, "profile-picture-type": 0})
     return render_template("club-main.html", club_details=clubDetails)
 
 
@@ -141,7 +145,8 @@ def recruit_players():
 @club
 def player_recruit_profile():
     player_id = session['player_id']
-    playerDetails = player_details.find_one(player_id)
+    playerDetails = player_details.find_one(
+        player_id, {"profile-picture": 0, "profile-picture-type": 0})
     player_post_analysis_details = player_posts_analysis[player_id]
     data = {item['date']: item['post_count']
             for item in player_post_analysis_details.find()}
