@@ -1,13 +1,16 @@
-from flask import Blueprint, render_template, redirect, session, request
 from functools import wraps
-from .models import *
-from .__init__ import player_details, club_details, player_posts, player_posts_analysis
+
+import pymongo
+from flask import Blueprint, render_template
+
+from .__init__ import *
 from .common_functions import *
+from .models import *
 
 views = Blueprint("views", __name__)
 
-# Decorators
 
+# Decorators
 
 def player(function):
     @wraps(function)
@@ -16,6 +19,7 @@ def player(function):
             return function(*args, **kwargs)
         else:
             return redirect('/logout')
+
     return wrap
 
 
@@ -26,6 +30,7 @@ def club(function):
             return function(*args, **kwargs)
         else:
             return redirect('/logout')
+
     return wrap
 
 
@@ -36,6 +41,7 @@ def login_required(function):
             return function(*args, **kwargs)
         else:
             return redirect('/login')
+
     return wrap
 
 
@@ -91,7 +97,11 @@ def player_profile_page():
     player_post_analysis_details = player_posts_analysis[player_id['_id']]
     data = {item['date']: item['post_count']
             for item in player_post_analysis_details.find()}
-    return render_template("player-profile.html", player_details=playerDetails, data=data, pictureDetails=pictureDetails, image_maker=image_maker)
+    return render_template("player-profile.html",
+                           player_details=playerDetails,
+                           data=data,
+                           pictureDetails=pictureDetails,
+                           image_maker=image_maker)
 
 
 @views.route('/add-post', methods=['GET', 'POST'])
@@ -103,52 +113,162 @@ def add_post():
     return render_template("add-post.html")
 
 
+@views.route('/inbox')
+@login_required
+@player
+def inbox():
+    inbox_messages = player_inbox[session['user']['_id']]
+    return render_template("inbox.html", inbox_messages=inbox_messages.find())
+
+
+@views.route('/performance')
+@login_required
+@player
+def performance():
+    values = data_analysis[session['user']['_id']].find_one()
+    if values['performance'] == 'yes':
+        match values['sport']:
+            case 'cricket':
+                match values['role']:
+                    case 'Batsman':
+                        return render_template('batsman.html', values=values)
+                    case 'bowler':
+                        pass
+                    case 'all-rounder':
+                        pass
+                    case _:
+                        return render_template('buy-performance.html')
+            case 'football':
+                match values['football-position']:
+                    case 'attacker':
+                        pass
+                    case 'mid-fielder':
+                        pass
+                    case 'defender':
+                        pass
+                    case 'goal-keeper':
+                        pass
+                    case _:
+                        return render_template('buy-performance.html')
+        return render_template('performance.html')
+    return render_template('buy-performance.html')
+
+
 # Club pages
+
 
 @views.route('/clubs')
 @login_required
 @club
 def clubs_page():
     clubDetails = club_details.find_one({"_id": session['user']['_id']}, {
-                                        "profile-picture": 0, "profile-picture-type": 0})
-    return render_template("club-main.html", club_details=clubDetails)
+        "profile-picture": 0, "profile-picture-type": 0})
+    pictureDetails = club_details.find_one({"_id": session['user']['_id']}, {
+        "profile-picture": 1, "profile-picture-type": 1})
+    return render_template("club-main.html", club_details=clubDetails,
+                           pictureDetails=pictureDetails,
+                           image_maker=image_maker)
 
 
 @views.route('/edit-club-profile', methods=['GET', 'POST'])
 @login_required
 @club
 def edit_club_details():
+    clubDetails = club_details.find_one({'_id': session['user']['_id']})
     if request.method == 'POST':
-        return User().update_profile(database=club_details, previous_data_identifier={"_id": session['user']['_id']}, new_data={
-            "$set": {
-                "name": request.form.get('name'),
-                "email": request.form.get('email'),
-                "founder-name": request.form.get('founder-name'),
-                "contact-number": request.form.get('phone'),
-            }
-        })
-    return render_template("edit-club.html")
+        return User().update_profile(database=club_details,
+                                     previous_data_identifier={"_id": session['user']['_id']},
+                                     new_data={
+                                         "$set": {
+                                             "name": request.form.get('name'),
+                                             "email": request.form.get('email'),
+                                             "founder-name": request.form.get('founder-name'),
+                                             "contact-number": request.form.get('phone'),
+                                             "profile-picture": b64encode(request.files['picture'].read()),
+                                             "profile-picture-type": request.files['picture'].content_type
+                                         }
+                                     })
+    return render_template("edit-club.html", club_details=clubDetails)
 
 
 @views.route('/recruit', methods=['GET', 'POST'])
 @login_required
 @club
 def recruit_players():
+    player_data = player_details.find()
     if request.method == "POST":
-        session['player_id'] = request.form.get('player_profile_button')
-        return redirect('/player-recruit-profile')
-    return render_template("recruit.html", player_details=player_details.find(), calculateAge=calculateAge)
+        if 'player_profile_button' in request.form:
+            session['player_id'] = request.form.get('player_profile_button')
+            return redirect('/player-recruit-profile')
+        elif 'sort_button' in request.form:
+            filter_type = request.form.get("filter")
+            match request.form.get("sort"):
+                case 'weight_hl':
+                    player_data = player_details.find({"sport": filter_type}).sort('weight', pymongo.DESCENDING)
+                case 'weight_lh':
+                    player_data = player_details.find({"sport": filter_type}).sort('weight', pymongo.ASCENDING)
+                case 'height_hl':
+                    player_data = player_details.find({"sport": filter_type}).sort('height', pymongo.DESCENDING)
+                case 'height_lh':
+                    player_data = player_details.find({"sport": filter_type}).sort('height', pymongo.ASCENDING)
+                case 'age_hl':
+                    player_data = player_details.find({"sport": filter_type}).sort('date-of-birth', pymongo.DESCENDING)
+                case 'age_lh':
+                    player_data = player_details.find({"sport": filter_type}).sort('date-of-birth', pymongo.ASCENDING)
+            return render_template("recruit.html",
+                                   player_details=player_data,
+                                   calculateAge=calculateAge,
+                                   )
+    return render_template("recruit.html", player_details=player_data, calculateAge=calculateAge)
 
 
-@views.route('/player-recruit-profile')
+@views.route('/player-recruit-profile', methods=['GET', 'POST'])
 @login_required
 @club
 def player_recruit_profile():
+    # Database Referrals
+
     player_id = session['player_id']
     playerDetails = player_details.find_one(
         player_id, {"profile-picture": 0, "profile-picture-type": 0})
+    pictureDetails = player_details.find_one(
+        player_id, {"profile-picture": 1, "profile-picture-type": 1})
     player_post_analysis_details = player_posts_analysis[player_id]
     data = {item['date']: item['post_count']
             for item in player_post_analysis_details.find()}
     posts = player_posts[player_id]
-    return render_template("recruit-profile.html", player_details=playerDetails, player_post_analysis_details=player_post_analysis_details, data=data, posts=posts.find(), image_maker=image_maker)
+
+    if request.method == 'POST':
+        club_id = session['user']["_id"]
+        code = referral_code_generator(name=club_id)
+        Club().send_message(club_database=club_outbox[club_id],
+                            message=inbox_message(
+                                name='player-id',
+                                Id=request.form.get("player_id"),
+                                description=request.form.get('message'),
+                                code=code,
+
+                            ),
+                            player_inbox_message=inbox_message(
+                                name='club-id',
+                                Id=club_id,
+                                description=request.form.get('message'),
+                                code=code
+                            ),
+                            player_database=player_inbox[request.form.get('player_id')]
+                            )
+    return render_template("recruit-profile.html",
+                           player_details=playerDetails,
+                           player_post_analysis_details=player_post_analysis_details,
+                           data=data,
+                           posts=posts.find(),
+                           image_maker=image_maker,
+                           pictureDetails=pictureDetails)
+
+
+@views.route('/outbox', methods=['GET', 'POST'])
+@login_required
+@club
+def outbox():
+    messages = club_outbox[session['user']['_id']]
+    return render_template('outbox.html', messages=messages.find())

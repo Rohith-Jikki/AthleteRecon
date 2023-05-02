@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{url_for('static', filename='css/base.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>{% block title %}Home{% endblock %}</title>
     {% block head %}
     {% endblock %}
@@ -29,11 +30,14 @@
                 <a href="/players" class="player-name">Edit Profile</a>
                 <a href="/career" class="career">Career</a>
                 <a href="/add-post" class="add-post">Add Post</a>
+                    <a href="/inbox">Inbox</a>
+                    <a href="/performance">Performance</a>
                 <a href="/logout" class="logout">Logout</a>
                 {% else %}
                 <a href="/clubs">{{session['user']['name']}}</a>
                 <a href="/edit-club-profile">Edit Profile</a>
                 <a href="/recruit">Recruit</a>
+                    <a href="/outbox">OutBox</a>
                 <a href="/logout" class="logout">Logout</a>
                 {% endif %}
             </div>

@@ -4,19 +4,31 @@
 <link href="{{url_for('static', filename='css/club-main.css')}}" rel="stylesheet">
 {% endblock %}
 {% block content %}
-<div class="container">
-    <div class="left-box">
-        <p>Club ID: </p>
-        <p>Name: </p>
-        <p>Founder:</p>
-        <p>E-mail: </p>
-        <p>Contact: </p>
-        <p>Sport: </p>
-    </div>
-    <div class="right-box">
-        {% for i in club_details.values()%}
-        <p>{{i}}</p>
-        {% endfor %}
+<div class="page-container">
+    <div class="card">
+        <h2>Profile</h2><img
+            src="{{image_maker(image=pictureDetails['profile-picture'],content_type= pictureDetails['profile-picture-type'])}}"
+            id="profile-photo">
+        <table class="profile-table">
+            <thead>
+                <tr>
+                    <th>Club ID</th>
+                    <th>Club Name</th>
+                    <th>Club Founder</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Sport</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for i in club_details.values()%}
+                    <td>{{i}}</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+
     </div>
 </div>
 {% endblock %}

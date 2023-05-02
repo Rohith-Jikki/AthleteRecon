@@ -27,7 +27,7 @@ $(document).ready(function() {
       var selectedOption = $(this).val();
   
       // If Option 2 is selected, show the div; otherwise, hide it
-      if (selectedOption == 'football') {
+      if (selectedOption === 'football') {
         $('.football').show();
         $('.cricket').hide();
   

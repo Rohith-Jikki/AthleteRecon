@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}OutBox{% endblock %}
+{% block head %}
+    <link href="{{url_for('static', filename='css/outbox.css')}}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="page-container">
+    <table>
+        <thead>
+        <th>Date</th>
+        <th>Player ID</th>
+        <th>Description</th>
+        <th>Referral Code</th>
+        </thead>
+        <tbody>
+            {% for item in messages %}
+                <tr>
+                <td>{{ item['date'] }}</td>
+                <td>{{ item['player-id'] }}</td>
+                    <td>{{ item['description'] }}</td>
+                    <td>{{ item['referral'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

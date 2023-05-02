@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ values['role'] }} Performance{% endblock %}
+{% block head %}
+    <link href="{{url_for('static', filename='css/outbox.css')}}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="page-container">
+        <div class="title">
+            <h2 id="player_name">{{ session['user']['name'] }}</h2>
+            <h3 id="role">{{ values['role'] }}</h3>
+            <h3 id="play-style">{{ values['play-style'] }}</h3>
+        </div>
+    <div class="analysis">
+        <h4>Strike Rate: {{ values['strike-rate'] }}</h4>
+        <h5>Strike Rate(18 balls)</h5>
+        <canvas id="strike-rate"></canvas>
+        <script>
+
+        </script>
+    </div>
+    </div>
+{% endblock %}

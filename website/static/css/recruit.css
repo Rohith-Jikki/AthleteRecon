@@ -52,3 +52,8 @@ tr:hover{
     padding: 10px;
     width: 100%;
 }
+
+.sort-form{
+    display: flex;
+    justify-content: space-between;
+}

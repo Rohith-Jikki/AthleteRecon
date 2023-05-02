@@ -4,7 +4,7 @@ function submit_processor(form, current_url){
     var whereto = $form.find("#club-or-player").val();
     var formData = new FormData($form.get(0));
     
-    if(whereto == 'player'){
+    if(whereto === 'player'){
         var url = '/player-profile'
     }
     else{
@@ -70,3 +70,7 @@ $("#edit-club-details").submit(function(e){
     form_submit_function(form=$(this), current_url="/edit-club-profile", where_to="/clubs")
 });
 
+$("#recruit-form").submit(function(e){
+    e.preventDefault();
+    form_submit_function(form=$(this), current_url="/player-recruit-profile", where_to="/outbox")
+});

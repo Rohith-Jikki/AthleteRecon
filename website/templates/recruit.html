@@ -2,11 +2,27 @@
 {% block title %}Recruit{% endblock %}
 {% block head %}
 <link href="{{url_for('static', filename='css/recruit.css')}}" rel="stylesheet">
-<!-- <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}" defer></script>  -->
 {% endblock %}
 {% block content %}
 <div class="container">
-
+    <div class="sort">
+        <form action="" class="sort-form" method="post" name="sort-form">
+            <input type="hidden" name="sort_or_not" id="sort_or_not" value="sort_or_not">
+            <label for="sort">Sort:</label><select name="sort" id="sort">
+                <option value="weight_hl">weight(high to low)</option>
+            <option value="weight_lh">weight(low to high)</option>
+            <option value="height_hl">height(high to low)</option>
+                <option value="height_lh">height(low to high)</option>
+                <option value="age_hl">age(high to low)</option>
+            <option value="age_lh">age(low to high)</option>
+            </select>
+            <label for="filter">Filter:</label><select name="filter" id="filter">
+                <option value="football">Football</option>
+                <option value="cricket">Cricket</option>
+            </select>
+            <input type="submit" value="sort" name="sort_button">
+        </form>
+    </div>
     <div class="player">
         <table>
             <thead>
@@ -16,8 +32,10 @@
                 <th>Weight</th>
                 <th>Medical Conditions</th>
                 <th>Sport</th>
+            <th>Role/Position</th>
             </thead>
             {% for item in player_details %}
+                {% if 'null' not in [item['date-of-birth'], item['height'], item['weight']]%}
             <tr>
                 <td>{{item['name']}}</td>
                 {% if item['date-of-birth'] == 'null' %}
@@ -29,6 +47,12 @@
                 <td>{{item['weight']}}kg</td>
                 <td>{{item['medical-conditions']}}</td>
                 <td>{{item['sport']}}</td>
+            {% if item['sport'] == 'football' %}
+                <td>{{ item['position'] }}</td>
+                {% else %}
+                <td>{{ item['role'] }}</td>
+            {% endif %}
+            <td>{{ item['position'] }}</td>
                 <td class="button">
                     <form action="" method="post" target="_blank">
                         <button class="goto-profile" value="{{item['_id']}}" type="submit"
@@ -36,6 +60,7 @@
                     </form>
                 </td>
             </tr>
+                {% endif %}
             {% endfor %}
         </table>
     </div>

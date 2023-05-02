@@ -8,9 +8,15 @@
 {% block content %}
 <div class="container">
     <div class="details">
-        <h2>Profile</h2>
+
         <div class="card">
             <div class="card-body">
+
+                <h2>Profile</h2>
+                <img src="{{image_maker(image=pictureDetails['profile-picture'],content_type= pictureDetails['profile-picture-type'])}}"
+                    id="profile-photo">
+
+
                 <table id="profile-table">
                     <thead>
                         <tr>
@@ -75,7 +81,7 @@
                 },
                 y: {
                     beginAtZero: true,
-                    displaye: true,
+                    display: true,
                     title: {
                         display: true,
                         text: 'Number Of Posts'
@@ -91,6 +97,14 @@
         });
 
     </script>
+    <div class="recruit-elements">
+        <form action="" method="post" id="recruit-form">
+            <label for="message">Recruit Details</label><br>
+            <textarea name="message" id="message" cols="50" rows="20" placeholder="Enter message"></textarea>
+            <input type="text" readonly value="{{player_details['_id']}}" name="player_id" id="player_id">
+            <input type="submit" value="Recruit">
+        </form>
+    </div>
     <h2>Player Activity</h2>
     {% for post in posts %}
     <div class="post">

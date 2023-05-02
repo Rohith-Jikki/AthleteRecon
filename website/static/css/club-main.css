@@ -2,6 +2,44 @@ body{
     color:white
 }
 
-.container{
-    display: flex;
+.page-container{
+    color:white;
+    margin: 30px auto;
+    width: 75%;
+    background-color: rgba(255,255,255,0.13);
+    border-radius: 30px;
+    border: 2px solid rgba(255,255,255,0.1);
+    padding: 30px;
 }
+
+.profile-table{
+    display: flex;
+    text-align: left;
+    padding: 20px;
+    font-size: large;
+}
+
+tbody, thead{
+    border-collapse: collapse;
+}
+
+
+.profile-table tr{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.profile-table td, th{
+    padding: 10px;
+    border-bottom: solid white;
+}
+
+#profile-photo{
+    width: 155px;
+  height: 155px;
+  border-radius: 50%;
+  border: 2px solid #39bbdc;
+  filter: drop-shadow(0 0 8px #2f227e);
+}
+
