@@ -41,6 +41,11 @@ def sign_up():
                                      details_database=player_details,
                                      analysis_database=data_analysis)
             else:
-                return User().signup(name='name', email='email', password="password", database=club_users, details_database=club_details)
+                return User().signup(name='name',
+                                     email='email',
+                                     password="password",
+                                     database=club_users,
+                                     details_database=club_details,
+                                     analysis_database=data_analysis)
 
     return render_template("signup.html")

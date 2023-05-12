@@ -1,0 +1,139 @@
+.page-container{
+    color: white;
+}
+
+.title{
+    display: grid;
+}
+
+.description{
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start:1 ;
+    grid-row-end:2 ;
+}
+
+#player_name{
+    text-align: center;
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start:2 ;
+    grid-row-end:3 ;
+}
+
+#role{
+    text-align: left;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start:3 ;
+    grid-row-end:4 ;
+}
+
+#play-style{
+    text-align: right;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start:3 ;
+    grid-row-end:4 ;
+}
+.analysis{
+    display: grid;
+
+    grid-template-columns: 20% auto auto;
+}
+
+
+#runs{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end:2;
+}
+
+#strike-rate-value{
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 3;
+}
+
+#graphs{
+    margin: auto;
+    width: 50%;
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+#conversion-rate-50{
+    text-align: center;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+#conversion-rate-100{
+    text-align: center;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+#defensive{
+    text-align: center;
+    margin: auto;
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+
+#boundary-graph{
+    width: 50%;
+    margin: auto;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 4;
+    grid-row-end: 5;
+}
+
+#fast{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 5;
+    grid-row-end: 6;
+}
+#spin{
+    grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 5;
+    grid-row-end: 6;
+}
+
+#ball-graphs{
+    width: 70%;
+    margin: auto;
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 6;
+    grid-row-end: 7;
+}
+
+#wickets-info{
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 7;
+    grid-row-end: 8;
+}
+
+#wicket-table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td{
+    border: 1px solid #b65555;
+    padding: 20px;
+}

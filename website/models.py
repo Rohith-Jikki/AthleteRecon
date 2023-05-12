@@ -37,8 +37,7 @@ class User:
             self.profile_image = b64encode(profile_picture)
             profile_image_type = request.files['picture'].content_type
             if request.form.get('club-or-player') == 'player':
-                profile_picture = request.files['picture'].read()
-                self.profile_image = b64encode(profile_picture)
+
                 player_details = {
                     "_id": self.id,
                     "name": request.form.get('name'),

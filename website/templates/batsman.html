@@ -1,22 +1,206 @@
 {% extends "base.html" %}
 {% block title %}{{ values['role'] }} Performance{% endblock %}
 {% block head %}
-    <link href="{{url_for('static', filename='css/outbox.css')}}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/batsman.css') }}" rel="stylesheet">
 {% endblock %}
 {% block content %}
     <div class="page-container">
         <div class="title">
+            <span class="description">This was calculated with a match of 18 overs</span>
             <h2 id="player_name">{{ session['user']['name'] }}</h2>
             <h3 id="role">{{ values['role'] }}</h3>
             <h3 id="play-style">{{ values['play-style'] }}</h3>
-        </div>
-    <div class="analysis">
-        <h4>Strike Rate: {{ values['strike-rate'] }}</h4>
-        <h5>Strike Rate(18 balls)</h5>
-        <canvas id="strike-rate"></canvas>
-        <script>
 
-        </script>
-    </div>
+        </div>
+        <div class="analysis">
+            <h3 id="runs">Total Runs: {{ values['total-runs'] }}</h3>
+            <h4 id="strike-rate-value">Strike Rate: {{ values['strike-rate'] }}</h4>
+            <div id="graphs">
+                <canvas id="strike-rate"></canvas>
+                <canvas id="scoring-rate"></canvas>
+            </div>
+            <h4 id="conversion-rate-50">Conversion Rate(50 Runs): {{ values['conversion-rate-fifty'] }}</h4>
+            <h4 id="conversion-rate-100">Conversion Rate(100 Runs): {{ values['conversion-rate-hundred'] }}</h4>
+            <h4 id="defensive">Defensive Approach: {{ values['defensive-approach'] }}</h4>
+            <span id="boundary-graph">
+            <canvas id="boundary-percentage"></canvas>
+            </span>
+            <h3 id="fast">Fast Balls Hit: {{ values['fast-ball-with-runs'] }}%</h3>
+            <h3 id="spin">Spin Balls Hit: {{ values['spin-ball-with-runs'] }}%</h3>
+            <span id="ball-graphs">
+            <canvas id="ball-types"></canvas></span>
+        <div id="wickets-info">
+            <h3 id="wickets"> Total Dismissal: {{ values['total-wickets'] }}</h3>
+            <table id="wicket-table">
+                <tr>
+                    {% for value in values['wicket-ball'] %}
+                        <td>Ball Type</td>
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            <tr>
+                {% for value in values['wicket-ball'].values() %}
+                    <td>Delivery</td>
+                    <td>{{ value }}</td>
+                {% endfor %}
+
+            </tr>
+            </table>
+        </div>
+            <script>
+
+                const ctx = document.getElementById('strike-rate').getContext('2d');
+                const ctx_scoring_rate = document.getElementById('scoring-rate').getContext('2d');
+                const ctx_boundary = document.getElementById('boundary-percentage').getContext('2d');
+                const ctx_balls = document.getElementById('ball-types').getContext('2d');
+
+                let graph_data = {{ values['strike-rate-eighteen'] | tojson}};
+                let scoring_rate_data = {{ values['scoring-rate'] | tojson}};
+                new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(graph_data),
+                            datasets: [
+                                {
+                                    label: 'Strike Rate',
+                                    data: Object.values(graph_data),
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(255, 205, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(201, 203, 207, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(255, 159, 64)',
+                                        'rgb(255, 205, 86)',
+                                        'rgb(75, 192, 192)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(153, 102, 255)',
+                                        'rgb(201, 203, 207)'
+                                    ],
+                                    borderWidth: 1,
+                                    fill: true,
+                                    tension: 0.1
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Overs'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Strike Rate(18 balls)'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+                new Chart(ctx_scoring_rate, {
+                        type: 'bar',
+                        data: {
+                            labels: Object.keys(scoring_rate_data),
+                            datasets: [
+                                {
+                                    label: 'Scoring Rate',
+                                    data: Object.values(scoring_rate_data),
+                                    backgroundColor: [
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(255, 205, 86, 0.2)',
+                                        'rgba(75, 192, 192, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(201, 203, 207, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(255, 159, 64)',
+                                        'rgb(255, 205, 86)',
+                                        'rgb(75, 192, 192)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(153, 102, 255)',
+                                        'rgb(201, 203, 207)'
+                                    ],
+                                    borderWidth: 1,
+                                    fill: true,
+                                    tension: 0.1
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Overs'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Scoring Rate'
+                                    }
+                                }
+                            }
+                        }
+                    }
+                );
+                var xValues = ["Four Percentage", "Six Percentage", "Other Runs"];
+                var yValues = [{{ values['four-percentage'] }},
+                    {{ values['six-percentage'] }},
+                    {{ 100 - (values['four-percentage'] + values['six-percentage'])}}];
+                new Chart(ctx_boundary, {
+                    type: "pie",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: [
+                                'rgb(255, 99, 132)',
+                                'rgb(54, 162, 235)',
+                                'rgb(255, 205, 86)'
+                            ],
+                            data: yValues,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: "Runs Percentage"
+                        }
+                    }
+                });
+                const ball_types = {{ values['ball-types'] | tojson }};
+                const ball_types_with_runs = {{ values['balls-with-runs'] | tojson }};
+                new Chart(ctx_balls, {
+                    type: 'line',
+                    data: {
+                        labels: Object.keys(ball_types),
+                        datasets: [{
+                            label: 'Balls Bowled',
+                            data: Object.values(ball_types),
+                            borderColor: 'rgb(255, 99, 132)',
+                            fill: false
+                        }, {
+                            label: "Balls Hit",
+                            data: Object.values(ball_types_with_runs),
+                            borderColor: 'rgb(54, 162, 235)',
+                            fill: false
+                        }]
+                    }
+                })
+            </script>
+        </div>
     </div>
 {% endblock %}

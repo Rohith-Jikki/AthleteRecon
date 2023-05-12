@@ -5,8 +5,7 @@
 {% block content %}
 <div class="container">
     <div class="details">
-        <h2>Profile</h2><img
-            src="{{image_maker(image=pictureDetails['profile-picture'],content_type= pictureDetails['profile-picture-type'])}}"
+        <h2>Profile</h2><img src="{{image_maker(image=pictureDetails['profile-picture'],content_type= pictureDetails['profile-picture-type'])}}"
             id="profile-photo">
         <div class=" card">
             <table id="profile-table">
@@ -74,7 +73,7 @@
             },
             y: {
                 beginAtZero: true,
-                displaye: true,
+                display: true,
                 title: {
                     display: true,
                     text: 'Number Of Posts'
