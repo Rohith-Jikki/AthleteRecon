@@ -1,5 +1,6 @@
 .page-container{
     color: white;
+    margin: 10px;
 }
 
 .title{
@@ -136,4 +137,27 @@
 td{
     border: 1px solid #b65555;
     padding: 20px;
+}
+
+label{
+    text-decoration: underline;
+    font-weight: bold;
+}
+h3,h4{
+    text-align: center;
+    background: rgb(14,35,66, 0.65);
+    padding: 20px;
+}
+
+#role, #play-style{
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
+#runs, #strike-rate-value{
+    padding: 20px;
+    font-size: 1.17em;
+}
+.title, hr{
+    margin-bottom: 40px;
 }

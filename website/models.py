@@ -126,7 +126,6 @@ class User:
 
 
 class Post:
-    @staticmethod
     def add_post_analysis(self, date, post_id, database) -> bool:
         # Check if the date already exists in the database
         post = database.find_one({'date': date})

@@ -127,30 +127,7 @@ def inbox():
 def performance():
     values = data_analysis[session['user']['_id']].find_one()
     if values['performance'] == 'yes':
-        match values['sport']:
-            case 'cricket':
-                match values['role']:
-                    case 'Batsman':
-                        return render_template('batsman.html', values=values)
-                    case 'bowler':
-                        pass
-                    case 'all-rounder':
-                        pass
-                    case _:
-                        return render_template('buy-performance.html')
-            case 'football':
-                match values['football-position']:
-                    case 'attacker':
-                        pass
-                    case 'mid-fielder':
-                        pass
-                    case 'defender':
-                        pass
-                    case 'goal-keeper':
-                        pass
-                    case _:
-                        return render_template('buy-performance.html')
-        return render_template('performance.html')
+        return render_template('performance.html', values=values)
     return render_template('buy-performance.html')
 
 
@@ -237,7 +214,7 @@ def player_recruit_profile():
     data = {item['date']: item['post_count']
             for item in player_post_analysis_details.find()}
     posts = player_posts[player_id]
-
+    values = data_analysis[player_id].find_one()
     if request.method == 'POST':
         club_id = session['user']["_id"]
         code = referral_code_generator(name=club_id)
@@ -263,7 +240,8 @@ def player_recruit_profile():
                            data=data,
                            posts=posts.find(),
                            image_maker=image_maker,
-                           pictureDetails=pictureDetails)
+                           pictureDetails=pictureDetails,
+                           values=values)
 
 
 @views.route('/outbox', methods=['GET', 'POST'])

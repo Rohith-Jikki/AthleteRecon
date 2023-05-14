@@ -1,4 +1,3 @@
-{% extends "base.html" %}
 {% block title %}{{ values['role'] }} Performance{% endblock %}
 {% block head %}
     <link href="{{ url_for('static', filename='css/batsman.css') }}" rel="stylesheet">
@@ -6,28 +5,33 @@
 {% block content %}
     <div class="page-container">
         <div class="title">
-            <span class="description">This was calculated with a match of 18 overs</span>
-            <h2 id="player_name">{{ session['user']['name'] }}</h2>
-            <h3 id="role">{{ values['role'] }}</h3>
-            <h3 id="play-style">{{ values['play-style'] }}</h3>
 
+            <h2 id="player_name">{{ session['user']['name'] }}</h2>
+            <p id="role">Role: {{ values['role'] }}</p>
+            <p id="play-style">Play-Style: {{ values['play-style'] }}</p>
         </div>
+        <hr>
+    <span class="description">This was calculated with a match of 18 overs</span>
         <div class="analysis">
-            <h3 id="runs">Total Runs: {{ values['total-runs'] }}</h3>
-            <h4 id="strike-rate-value">Strike Rate: {{ values['strike-rate'] }}</h4>
+            <span><h3 id="runs">{{ values['total-runs'] }}<br>Total Runs</h3></span>
+            <span><h4 id="strike-rate-value">{{ values['strike-rate'] }}<br>Strike Rate</h4></span>
             <div id="graphs">
+                <label for="strike-rate">Strike Rate:</label>
                 <canvas id="strike-rate"></canvas>
+                <label for="scoring-rate">Scoring Rate:</label>
                 <canvas id="scoring-rate"></canvas>
             </div>
-            <h4 id="conversion-rate-50">Conversion Rate(50 Runs): {{ values['conversion-rate-fifty'] }}</h4>
-            <h4 id="conversion-rate-100">Conversion Rate(100 Runs): {{ values['conversion-rate-hundred'] }}</h4>
+            <h4 id="conversion-rate-50">{{ values['conversion-rate-fifty'] }}<br>Conversion Rate(50 Runs)</h4>
+            <h4 id="conversion-rate-100">{{ values['conversion-rate-hundred'] }}<br>Conversion Rate(100 Runs)</h4>
             <h4 id="defensive">Defensive Approach: {{ values['defensive-approach'] }}</h4>
             <span id="boundary-graph">
+                <label for="boundary-percentage">Chart of Boundaries:</label>
             <canvas id="boundary-percentage"></canvas>
             </span>
             <h3 id="fast">Fast Balls Hit: {{ values['fast-ball-with-runs'] }}%</h3>
             <h3 id="spin">Spin Balls Hit: {{ values['spin-ball-with-runs'] }}%</h3>
             <span id="ball-graphs">
+                <label for="ball-types">Chart of Ball Types:</label>
             <canvas id="ball-types"></canvas></span>
         <div id="wickets-info">
             <h3 id="wickets"> Total Dismissal: {{ values['total-wickets'] }}</h3>
@@ -56,6 +60,8 @@
 
                 let graph_data = {{ values['strike-rate-eighteen'] | tojson}};
                 let scoring_rate_data = {{ values['scoring-rate'] | tojson}};
+
+                Chart.defaults.color = '#fff';
                 new Chart(ctx, {
                         type: 'bar',
                         data: {
@@ -200,6 +206,7 @@
                         }]
                     }
                 })
+
             </script>
         </div>
     </div>

@@ -6,7 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 {% block content %}
-<div class="container">
+<div class="page-container">
     <div class="details">
 
         <div class="card">
@@ -53,10 +53,11 @@
                 </table>
             </div>
         </div>
-    </div>
     <div class="graph">
         <canvas id="post_analysis"></canvas>
     </div>
+    </div>
+
     <script>
         Chart.defaults.color = "black";
         Chart.defaults.font.size = 18;
@@ -89,23 +90,17 @@
                 }
             }
         };
-        var ctx = document.getElementById("post_analysis").getContext("2d");
-        var analysisChart = new Chart(ctx, {
+        var ctx2 = document.getElementById("post_analysis").getContext("2d");
+        var analysisChart = new Chart(ctx2, {
             type: 'line',
             data: data,
             options: options
         });
 
     </script>
-    <div class="recruit-elements">
-        <form action="" method="post" id="recruit-form">
-            <label for="message">Recruit Details</label><br>
-            <textarea name="message" id="message" cols="50" rows="20" placeholder="Enter message"></textarea>
-            <input type="text" readonly value="{{player_details['_id']}}" name="player_id" id="player_id">
-            <input type="submit" value="Recruit">
-        </form>
-    </div>
+
     <h2>Player Activity</h2>
+    <hr>
     {% for post in posts %}
     <div class="post">
         <h2>{{post['title']}}</h2>
@@ -114,5 +109,18 @@
         <p class="date">{{post['date']}}</p>
     </div>
     {% endfor %}
+{% if player_details['sport'] == 'cricket' %}
+        {% if player_details['role'] == 'Batsman' %}
+            {% include 'batsman.html'%}
+        {% endif %}
+{% endif %}
 </div>
+     <div class="recruit-elements">
+        <form action="" method="post" id="recruit-form">
+            <label for="message">Recruit Details</label><br>
+            <textarea name="message" id="message" cols="50" rows="20" placeholder="Enter message"></textarea>
+            <input type="text" readonly value="{{player_details['_id']}}" name="player_id" id="player_id">
+            <input type="submit" value="Recruit">
+        </form>
+    </div>
 {% endblock %}
