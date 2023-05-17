@@ -1,0 +1,117 @@
+.page-container {
+    color: white;
+}
+
+#player_name {
+    grid-area: name;
+    text-align: center
+}
+
+#position {
+    grid-area: position;
+    text-align: left
+}
+
+#foot {
+    grid-area: foot;
+    text-align: right
+}
+
+.title {
+    display: grid;
+    grid-template-areas:
+        'name name'
+        'position foot';
+    margin: 10px;
+}
+
+.analysis {
+    padding: 30px
+}
+
+#goal-title {
+    grid-area: goal-title
+}
+
+.goal-graph {
+    grid-area: goal-graph;
+}
+
+.goal-metrics {
+    grid-area: goal-metrics;
+}
+
+.shots-on-target {
+    grid-area: shots-on-target;
+}
+
+.goal-metrics2 {
+    grid-area: goal-metrics2;
+    width: 50%;
+    margin: auto;
+}
+
+.shot-accuracy {
+    grid-area: shot-accuracy;
+    display: grid;
+    grid-template-areas: 'accuracy1 accuracy2';
+}
+
+#accuracy1 {
+    grid-area: accuracy1;
+    text-align: center;
+
+}
+
+#accuracy2 {
+    grid-area: accuracy2;
+    text-align: center;
+}
+
+.goals {
+    display: grid;
+    grid-template-areas:
+    'goal-title goal-title'
+    'goal-metrics goal-graph'
+    'shots-on-target goal-metrics2'
+    'shot-accuracy shot-accuracy';
+    margin-bottom: 30px;
+}
+
+.metrics {
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+    background: rgba(255, 255, 255, 0.84);
+    color: black;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.passes-canvas{grid-area:passes-canvas}
+.team-play-metrics{grid-area:team-play-metrics}
+.pass-accuracy{grid-area:pass-accuracy}
+.graph1{margin: auto}
+.graph2{margin: auto}
+
+.team-play{
+    display: grid;
+    grid-template-areas:
+    'team-play-metrics passes-canvas'
+    'pass-accuracy pass-accuracy'
+}
+.pass-accuracy{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+}
+
+hr{
+    margin-top: 50px;
+}
+
+.defending, .attack{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+

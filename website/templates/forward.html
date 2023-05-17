@@ -1,11 +1,275 @@
-{% extends "base.html" %}
-{% block title %}Forward{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/forward.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forward.css') }}">
 {% endblock %}
 {% block content %}
     <div class="page-container">
-    <p>The calculations are made with two actual matches</p>
+        <p>The calculations are made with two actual matches</p>
+        <div class="title">
+            <h2 id="player_name">{{ session['user']['name'] }}</h2>
+            <h3 id="position">Position: {{ values['position'] }}</h3>
+            <h3 id="foot">Strong-Foot: {{ values['strong_foot'] }}</h3>
+        </div>
+        <hr>
+        <div class="analysis">
+            <div class="goals">
+                <h3 id="goal-title">Goals</h3>
+                <div class="goal-graph">
+                    <canvas id="goals-graph"></canvas>
+                </div>
+                <div class="goal-metrics metrics">
+                    <p>{{ values['goals'] + values['goals_match_two'] }}<br>Total Goals</p>
+                </div>
+                <div class="shots-on-target">
+                    <canvas id="shots-on-target"></canvas>
+                </div>
+                <div class="goal-metrics2 metrics">
+                    <p>{{ values['shots_match_one'] + values['shots_match_two'] }} <br>Shots On Target</p>
+                </div>
+                <div class="shot-accuracy metrics">
+                    <p id="accuracy1">{{ values['shot_accuracy_match_one'] }}%<br> Match 1</p>
+                    <p id="accuracy2">{{ values['shot_accuracy_match_two'] }}%<br> Match 2</p>
+                </div>
+            </div>
+            <div class="team-play">
+                <div class="passes-canvas">
+                    <canvas id="passes"></canvas>
+                </div>
+                <div class="team-play-metrics metrics">
+                    <p>{{ values['passes_match_one_sum'] + values['passes_match_two_sum'] }}<br>Total Passes </p>
+                </div>
+                <div class="pass-accuracy">
+                    Pass Accuracy
+                    <span class="graph1"><canvas id="pass-accuracy-graph1"></canvas></span>
+                    <span class="graph2"><canvas id="pass-accuracy-graph2"></canvas></span>
+                </div>
+            </div>
+            <hr>
+             <h2>Distance Covered</h2>
+            <div class="attack">
+                <div class="dribble">
+                    <canvas id="dribble-graph"></canvas>
+                </div>
+                <div class="attack-metrics">
+                    <label for="dribble-table">Dribbling Success Data</label>
+                    <table id="dribble-table">
+                        <thead>
+                        <tr>
+                            <th>Match 1</th>
+                            <th>Match 2</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{ values['dribbling_match_one'] }}%</td>
+                            <td>{{ values['dribbling_match_two'] }}%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <hr>
+            <h2>Defense</h2>
+            <div class="defending">
+                <div class="tackle-metrics metrics">
+                    <p>{{ values['tackles_match_one'] + values['tackles_match_two'] }}<br>Total Tackles</p>
+                </div>
+                <div class="tackles">
+                    <canvas id="tackles-graph"></canvas>
+                </div>
 
+                <div class="tackles-2">
+                    <canvas id="tackles-graph2"></canvas>
+                </div>
+                <div class="tackle-metrics metrics">
+                    <p>{{ values['tackles_match_one'] + values['tackles_match_two'] }}<br>Total Tackles</p>
+                </div>
+
+            </div>
+
+        </div>
     </div>
+    <script>
+        const ctx_goals = document.getElementById('goals-graph').getContext('2d');
+        const ctx_goals_shots = document.getElementById('shots-on-target').getContext('2d');
+        const ctx_passes = document.getElementById('passes').getContext('2d');
+        const ctx_pass_accuracy1 = document.getElementById('pass-accuracy-graph1').getContext('2d');
+        const ctx_pass_accuracy2 = document.getElementById('pass-accuracy-graph2').getContext('2d');
+        const ctx_tackles = document.getElementById('tackles-graph').getContext('2d');
+        const ctx_tackles2 = document.getElementById('tackles-graph2').getContext('2d');
+        const ctx_dribbles = document.getElementById('dribble-graph').getContext('2d');
+        function pieGraphData(label1, label2, data1, data2, title) {
+            return {
+                type: 'pie',
+                data: {
+                    labels: [label1, label2],
+                    datasets: [{
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)'
+                        ],
+                        data: [data1, data2],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: title
+                    }
+                }
+            }
+        }
+
+        function lineGraphData(label1, label2, data1, data2, data3, data4) {
+            return {
+                labels: ['match 1', 'match 2'],
+                datasets: [{
+                    label: label1,
+                    data: [data1, data2],
+                    borderColor: 'rgb(255, 99, 132)',
+                    fill: false
+                }, {
+                    label: label2,
+                    data: [data3, data4],
+                    borderColor: 'rgb(54, 162, 235)',
+                    fill: false
+                }]
+            }
+        }
+
+        function barGraphData(label, data1, data2) {
+            return {
+                labels: ['match 1', 'match 2'],
+                datasets: [
+                    {
+                        label: label,
+                        data: [data1, data2],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(255, 159, 64)'
+                        ],
+                        borderWidth: 1,
+                        fill: true,
+                        tension: 0.1
+                    }
+                ]
+            };
+        }
+
+        function barGraphOptions(x_axis, y_axis) {
+            return {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: x_axis
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: y_axis
+                        },
+                        ticks: {
+                            stepSize: 1
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        }
+
+        new Chart(ctx_goals, {
+            type: 'bar',
+            data: barGraphData(label = "Goals", data1 ={{ values['goals'] }}, data2 ={{ values['goals_match_two'] }}),
+            options: barGraphOptions(x_axis = 'Matches', y_axis = 'Goals')
+        });
+
+        new Chart(ctx_goals_shots, {
+            type: 'line',
+            data: lineGraphData(label1 = 'shot on goal',
+                label2 = 'goal',
+                data1 = {{values['shots_match_one']}},
+                data2 = {{ values['shots_match_two'] }},
+                data3 = {{ values['goals'] }},
+                data4 = {{ values['goals_match_two'] }}
+            ),
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        })
+
+        new Chart(ctx_passes, {
+            type: 'bar',
+            data: barGraphData("Passes", {{ values['passes_match_one_sum'] }}, {{ values['passes_match_two_sum'] }}),
+            options: barGraphOptions("Matches", "Passes")
+        })
+        new Chart(ctx_pass_accuracy1, pieGraphData(
+            "correct passes",
+            "failed passes",
+            {{ values['passes_match_one'] }},
+            {{ 100 - values['passes_match_one'] }},
+            "Pass Accuracy Match 1"
+        ))
+        new Chart(ctx_pass_accuracy2, pieGraphData(
+            "correct passes",
+            "failed passes",
+            {{ values['passes_match_two'] }},
+            {{ 100 - values['passes_match_two'] }},
+            "Pass Accuracy Match 2"
+        ))
+        new Chart(ctx_tackles, {
+            type:'bar',
+            data:barGraphData('Tackles',
+            {{ values['tackles_match_one'] }},
+            {{ values['tackles_match_two'] }}),
+            options:barGraphOptions("Matches", "Tackles")
+
+        })
+        new Chart(ctx_tackles2, {
+            type: 'line',
+            data: lineGraphData(label1 = 'tackles',
+                label2 = 'ball acquired',
+                data1 = {{values['tackles_match_one']}},
+                data2 = {{ values['tackles_match_two'] }},
+                data3 = {{ values['tackles_match_one_success'] }},
+                data4 = {{ values['tackles_match_two_success'] }}
+            ),
+            options: {
+                responsive: true,
+                scales: {
+                    y: {ticks: {
+                            stepSize: 1
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        })
+
+        new Chart(ctx_dribbles,{
+            type: 'bar',
+            data: barGraphData('Distance(km)', {{ values['distance_match_one'] }}, {{ values['distance_match_two'] }}),
+            options: {
+                indexAxis: 'y',
+                ticks: {
+                            stepSize: 1
+                        },
+                beginAtZero: true
+            }
+        })
+    </script>
 {% endblock %}
